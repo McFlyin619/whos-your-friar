@@ -1,0 +1,219 @@
+@font-face {
+	font-family: 'Aktiv-Grotesk';
+	src: url('./fonts/Aktiv-Grotesk-W01-Regular.woff2');
+}
+
+:root {
+	--brown: #2f241d;
+	--yellow: #ffc425;
+	--sand: #e0cca6;
+}
+
+#app {
+	font-family: 'Graduate', cursive;
+	-webkit-font-smoothing: antialiased;
+	-moz-osx-font-smoothing: grayscale;
+	text-align: left;
+	color: var(--yellow);
+}
+
+body {
+	background-color: var(--brown) !important;
+}
+
+.font-grad {
+	font-family: 'Graduate', cursive;
+}
+
+h3,
+h4,
+h5,
+h6,
+small {
+	font-family: 'Aktiv-Grotesk';
+}
+th {
+	font-weight: normal!important;
+}
+
+.wrapper {
+	min-height: calc(90vh - 70px);
+}
+
+nav {
+	background-color: var(--brown);
+	border-bottom: 1px solid var(--yellow);
+}
+
+.card {
+	background-color: #3e3128 !important;
+	border: 1px solid var(--sand) !important;
+	border-radius: 10px!important;
+	padding: 2rem;
+}
+
+.table-dark {
+	background-color: var(--brown) !important;
+}
+
+.router-link-active {
+	color: var(--yellow) !important;
+}
+
+.router-link-active-to {
+	color: var(--sand) !important;
+}
+
+li {
+	border-bottom: none !important;
+}
+
+.bg-brown {
+	background-color: var(--brown) !important;
+}
+
+.bg-yellow {
+	background-color: var(--yellow);
+}
+
+.color-purple {
+	color: rgb(157, 0, 255)!important;
+}
+
+.color-yellow1 {
+	color: var(--yellow)!important;
+}
+
+.border-yellow {
+	border: 1px solid var(--yellow) !important;
+}
+
+.yellow-circle-border {
+	border: 2px solid var(--yellow) !important;
+	border-radius: 100%;
+	padding: 5px;
+}
+
+.yellow-circle-border-home {
+	border: 2px solid var(--yellow) !important;
+	border-radius: 100%;
+	padding: 2px 4px 2px 4px;
+	background: white;
+}
+
+.yellow-circle-border-altAway {
+	border: 2px solid var(--yellow) !important;
+	border-radius: 100%;
+	padding: 2px 4px 2px 4px;
+	background: var(--sand);
+}
+
+.white-circle-border-away {
+	border: 2px solid white !important;
+	border-radius: 100%;
+	padding: 2px 4px 2px 4px;
+}
+
+.border-bottom-yellow {
+	border-bottom: 1px solid var(--yellow) !important;
+}
+
+.color-brown {
+	color: var(--brown) !important;
+}
+
+.color-sand {
+	color: var(--sand);
+}
+
+.color-yellow {
+	color: var(--yellow) !important;
+}
+
+.form-floating label {
+	color: var(--yellow) !important;
+}
+
+.form-floating label.active {
+	color: var(--yellow) !important;
+}
+
+.form-floating input {
+	color: var(--yellow) !important;
+	border: 0.5px solid var(--yellow) !important;
+	background-color: var(--brown);
+}
+
+.form-floating input:focus {
+	border: 3px solid var(--yellow) !important;
+	box-shadow: 0 1px 0 0 var(--yellow) !important;
+	color: var(--yellow) !important;
+	background-color: var(--brown);
+}
+
+input:-webkit-autofill,
+input:-webkit-autofill:hover,
+input:-webkit-autofill:focus,
+input:-webkit-autofill:active {
+	-webkit-box-shadow: 0 0 0 30px var(--brown) inset !important;
+	-webkit-text-fill-color: var(--sand);
+}
+
+select {
+	color: var(--sand) !important;
+	border: 0.5px solid var(--yellow) !important;
+	background-color: var(--brown) !important;
+}
+
+select:focus {
+	border: 2px solid var(--yellow) !important;
+	box-shadow: 0 1px 0 0 var(--yellow) !important;
+	color: var(--sand) !important;
+}
+
+select:disabled {
+	color: #856715 !important;
+	border: 0.5px solid #856715 !important;
+	background-color: rgb(12, 18, 24);
+}
+
+.bg-dialog {
+	background-color: var(--brown) !important;
+	color: var(--yellow);
+}
+
+.sd-btn {
+	border: var(--yellow) 1px solid !important;
+	color: var(--yellow) !important;
+}
+
+.sd-btn:hover {
+	border: var(--yellow) 1px solid !important;
+	color: var(--brown) !important;
+	background-color: var(--yellow);
+}
+
+.sd-btn-dark:hover {
+	border: var(--yellow) 1px solid !important;
+	color: var(--yellow) !important;
+	background-color: var(--brown) !important;
+}
+
+.sd-btn-dark {
+	border: var(--yellow) 1px solid !important;
+	color: var(--brown) !important;
+	background-color: var(--yellow) !important;
+}
+
+.link {
+	text-decoration: none;
+	color: var(--sand);
+}
+
+.link:hover {
+	color: white;
+}
+
+.user-standing {
+	background-color: #4a3e37bc !important;
+}
