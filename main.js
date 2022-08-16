@@ -1,10 +1,12 @@
 const express = require('express')
 // var cors = require('cors')
+const serveStatic = require('serve-static')
+const path = require('path')
 const app = express()
-
+const port = process.env.PORT || 3000
 // app.use(cors())
 
-app.use('/', express.static(__dirname + '/wyf-ui/dist'))
+app.use(serveStatic(path.join(__dirname, 'dist')))
 
 let count = '1'
 
@@ -22,6 +24,6 @@ const background = function () {
 
 background()
 
-app.listen(3000, () => {
-	console.log(`MESS (Mongo Event Sourcing) listening at http://localhost:3000`)
+app.listen(port, () => {
+	console.log('MESS (Mongo Event Sourcing) listening at http://localhost:3000')
 })
