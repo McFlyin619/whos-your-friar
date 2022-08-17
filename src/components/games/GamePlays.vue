@@ -1,7 +1,7 @@
 <template>
 	<div>
-		<h1 v-if="gameStatus === 'final'" class="text-center mb-5">Final</h1>
-		<h1 v-if="gameStatus === 'live'" class="text-center mb-5">Live</h1>
+		<h1 v-if="gameStatus === 'Final'" class="text-center mb-5">Final</h1>
+		<h1 v-if="gameStatus === 'In Progress'" class="text-center mb-5">Live</h1>
 		<div class="row mb-5 border-bottom-yellow text-center">
 			<div class="col">
 				<h2>
@@ -9,7 +9,7 @@
 					<span class="text-white">{{ teamsPlaying.home.score }}</span>
 				</h2>
 			</div>
-			<div v-if="gameStatus === 'live' " class="col text-white">
+			<div v-if="gameStatus === 'In Progress' " class="col text-white">
 						{{ gamePlayByPlay.slice(-1)[0].about.halfInning }} {{ gamePlayByPlay.slice(-1)[0].about.inning
 						}}{{
 							gamePlayByPlay.slice(-1)[0].about.inning === 1
@@ -105,7 +105,7 @@
 				</div>
 			</div>
 		</div>
-		<div v-if="gameStatus === 'live'">
+		<div v-if="gameStatus === 'In Progress'">
 			<h1 class="mt-5 border-bottom-yellow">Plays</h1>
 			<div v-for="play in gamePlayByPlay.slice().reverse()" :key="play">
 				<h5 class="color-sand">

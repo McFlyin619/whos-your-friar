@@ -3,7 +3,7 @@
 		<div v-if="gameStatus === 'no games'">
 			<h1>No Games Today</h1>
 		</div>
-		<div v-if="(gameStatus === 'pregame' || gameStatus === 'warmup') && userItems && boxscore && teamsPlaying">
+		<div v-if="(gameStatus === 'Preview' || gameStatus === 'Warmup') && userItems && boxscore && teamsPlaying">
 			<h2 class="text-center">Scheduled first pitch at {{ gameTime }}</h2>
 			<h4 class="text-center color-sand">
 				From {{ boxscore.data.teams.home.team.venue.name }} in {{ boxscore.data.teams.home.team.locationName }}
@@ -186,7 +186,7 @@
 				</div>
 			</div>
 		</div> -->
-		<div v-if="userItems && boxscore && teamsPlaying && playerEvents && gamePlayByPlay && (gameStatus === 'live' || gameStatus === 'final')">
+		<div v-if="userItems && boxscore && teamsPlaying && playerEvents && gamePlayByPlay && (gameStatus === 'In Progress' || gameStatus === 'Final')">
 			<game-plays :boxscore="boxscore" :battingOrder="battingOrder" :playerEvents="playerEvents" :gamePlayByPlay="gamePlayByPlay" :teamsPlaying="teamsPlaying" :userSelectedPlayersTotalPoints="userSelectedPlayersTotalPoints" :userItems="userItems" :gameStatus="gameStatus" :editPlayer="editPlayer"></game-plays>
 		</div>
 	</div>

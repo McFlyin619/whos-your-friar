@@ -32,15 +32,15 @@
 									<div class="row justify-content-center">My Stats</div>
 									<div class="row justify-content-between">
 										<div class="col-auto color-sand">Position</div>
-										<div class="col-auto text-white">#{{ gameStatus === 'live' ? currentUserPosition : userItems[0].attributes.currentPosition }} / {{ standings.length }}</div>
+										<div class="col-auto text-white">#{{ gameStatus === 'In Progress' ? currentUserPosition : userItems[0].attributes.currentPosition }} / {{ standings.length }}</div>
 									</div>
 									<div class="row justify-content-between">
 										<div class="col-auto color-sand">Total Points</div>
-										<div class="col-auto text-success">{{ userItems && gameStatus === 'live' ? (userItems[0].attributes.userPoints + userSelectedPlayersTotalPoints) : userItems[0].attributes.userPoints }}</div>
+										<div class="col-auto text-success">{{ userItems && gameStatus === 'In Progress' ? (userItems[0].attributes.userPoints + userSelectedPlayersTotalPoints) : userItems[0].attributes.userPoints }}</div>
 									</div>
 									<div class="row justify-content-between">
 										<div class="col-auto color-sand">Game Points</div>
-										<div class="col-auto text-success">{{ gameStatus === 'live' || gameStatus === 'final' ? userSelectedPlayersTotalPoints : 0 }}</div>
+										<div class="col-auto text-success">{{ gameStatus === 'In Progress' || gameStatus === 'Final' ? userSelectedPlayersTotalPoints : 0 }}</div>
 									</div>
 								</div>
 							</div>
@@ -115,7 +115,7 @@
 							</div>
 						</div>
 						<div class="text-center">
-							<h4 class="font-grad"><span class="text-white">Champion</span> sugarcanechop</h4>{{ count }}
+							<h4 class="font-grad"><span class="text-white">Champion</span> sugarcanechop</h4>
 						</div>
 					</div>
 					<router-view
@@ -197,7 +197,8 @@ export default {
 			usersHistory: null,
 			showPlays: null,
 			pointsSaved: false,
-			count: 0
+			gameState: null,
+			schedule: null
 		}
 	},
 	watch: {
@@ -224,9 +225,9 @@ export default {
 		// if (this.isAuth) {
 		// 	this.getEdit()
 		// }
-		this.getInfo()
+		// this.getInfo()
 		this.$store.dispatch('test')
-		this.loadCount()
+		this.loadGameData()
 	// 	setTimeout(() => {
 	// 		this.getInfo()
 	// 	}, 500)
@@ -278,13 +279,13 @@ export default {
 				return null
 			}
 		},
-		gameStatus () {
-			return this.$store.state.gameStatus
-		},
+		// gameStatus () {
+		// 	return this.$store.state.gameStatus
+		// },
 		topPlayers () {
-			if (this.$store.state.standings && this.gameStatus !== 'live') {
+			if (this.$store.state.standings && this.gameStatus !== 'In Progress') {
 				return this.standings.filter((i) => i.attributes.currentPosition <= 3 && i.attributes.currentPosition !== 0).sort((a, b) => a.attributes.currentPosition - b.attributes.currentPosition).map(i => i.attributes.userName)
-			} else if (this.$store.state.standings && this.gameStatus === 'live') {
+			} else if (this.$store.state.standings && this.gameStatus === 'In Progress') {
 				this.currentStandings()
 				if (this.currentUserStandings !== null) return this.currentUserStandings.filter((ele, i) => (i + 1) <= 3).sort((a, b) => a - b).map(i => i.user.attributes.userName); else return null
 			} else {
@@ -311,11 +312,20 @@ export default {
 		}
 	},
 	methods: {
-		async loadCount () {
-			const result = await axios.get(`${process.env.VUE_APP_APIURL}count`)
-			this.count = result.data.changed
-			console.log('its working')
-			setTimeout(this.loadCount, 3000)
+		async loadGameData () {
+			const result = await axios.get(`${process.env.VUE_APP_APIURL}game-info`)
+			console.log(result.data.schedule)
+			console.log(result.data.gameId)
+			console.log(result.data.gameState)
+			console.log(moment().format('YYYY-MM-DD HH:mm'))
+			this.schedule = result.data.schedule
+			this.gameId = result.data.gameId
+			this.gameState = result.data.gameState
+			this.$store.commit('setGameStatus', result.data.gameState)
+			this.getInfo()
+			if (result.data.gameState === 'Preview') setTimeout(this.loadCount, 1800000)
+			if (result.data.gameState === 'Warmup') setTimeout(this.loadCount, 120000)
+			if (result.data.gameState === 'In Progress') setTimeout(this.loadCount, 30000)
 		},
 		async getHistory () {
 			const yesterdaysGameDate = moment().subtract(1, 'days').format('MM-DD-YYYY')
@@ -406,34 +416,34 @@ export default {
 			this.tomorrowsGame()
 			if (process.env.NODE_ENV !== 'production') console.log('getInfo')
 			if (this.userItems && this.userItems[0].attributes.userTeam !== undefined) {
-				const response = await this.api.getSchedule({
-					params: {
-						sportId: 1,
-						date: this.date !== null ? this.date : this.convertedDate,
-						teamId: this.userItems[0].attributes.userTeam.id
-					}
-				})
+				// const response = await this.api.getSchedule({
+				// 	params: {
+				// 		sportId: 1,
+				// 		date: this.date !== null ? this.date : this.convertedDate,
+				// 		teamId: this.userItems[0].attributes.userTeam.id
+				// 	}
+				// })
 				// console.log(response.data.dates[0].games[0].status)
-				if (response.data.dates[0] !== undefined) {
+				if (this.schedule !== undefined) {
 					// If there is a double header it checks for a second game and if the first game is done
 					if (
-						response.data.dates[0].games[1] &&
-						response.data.dates[0].games[0].status.abstractGameCode === 'F'
+						this.schedule.games[1] &&
+						this.gameStatus === 'Final'
 					) {
-						this.gameId = response.data.dates[0].games[1].gamePk
+						this.gameId = this.schedule.games[1].gamePk
 
-						this.teamsPlaying = response.data.dates[0].games[1].teams
+						this.teamsPlaying = this.schedule.games[1].teams
 
-						this.gameTime = moment(response.data.dates[0].games[1].gameDate).format('h:mm a')
-						this.gameDate = moment(response.data.dates[0].games[1].gameDate).format('MM DD YYYY')
+						this.gameTime = moment(this.schedule.games[1].gameDate).format('h:mm a')
+						this.gameDate = moment(this.schedule.games[1].gameDate).format('MM DD YYYY')
 
 						this.getRoster()
 						this.getBoxScore()
 
 						// loads all necessary items for pre game
-						if (response.data.dates[0].games[1].status.abstractGameCode === 'P') {
+						if (this.gameStatus === 'Preview') {
 							if (process.env.NODE_ENV !== 'production') console.log('Pre-Game dd')
-							this.$store.commit('setGameStatus', 'pregame')
+							// this.$store.commit('setGameStatus', 'pregame')
 							// eslint-disable-next-line no-undef
 							var queryG = new Parse.Query('PlayerData')
 							queryG.equalTo('objectId', 'UNPypEjpTA')
@@ -442,46 +452,16 @@ export default {
 								if (data.attributes.allowEditPlayerSelection === true) this.editPlayerSelection = true
 								data.save()
 							})
-							// this.$store.commit('setGameStatus', 'pregame')
-							// // this.pregame = true
-							// // eslint-disable-next-line no-undef
-							// var query1 = new Parse.Query('Standings')
-							// const users = await query1.find()
-							// const usersFiltered = users.filter(
-							// 	(i) => i.attributes.userTeam.id === this.userItems[0].attributes.userTeam.id
-							// )
-							// for (const i in usersFiltered) {
-							// 	// eslint-disable-next-line no-undef
-							// 	var query2 = new Parse.Query('Standings')
-							// 	query2.equalTo('objectId', users[i].id)
-							// 	query2.first().then((user) => {
-							// 		if (user) {
-							// 			user.set('gamePointsSaved', false)
-							// 			user.save()
-							// 		}
-							// 	})
-							// }
-
-							// // eslint-disable-next-line no-undef
-							// var query3 = new Parse.Query('PlayerData')
-							// query3.equalTo('objectId', 'UNPypEjpTA')
-
-							// query3.first().then((data) => {
-							// 	if (data.attributes.allowEditPlayerSelection === true) this.editPlayerSelection = true
-
-							// 	data.save()
-							// 	this.$emit('editPlayerSelection', this.editPlayerSelection)
-							// })
 						}
-						if (response.data.dates[0].games[1].status.detailedState === 'Warmup') {
+						if (this.gameStatus === 'Warmup') {
 							if (process.env.NODE_ENV !== 'production') console.log('Warm Up dd')
-							this.$store.commit('setGameStatus', 'warmup')
+							// this.$store.commit('setGameStatus', 'warmup')
 							this.pointsSaved = false
 						}
-						if (response.data.dates[0].games[1].status.detailedState === 'In Progress') {
+						if (this.gameStatus === 'In Progress') {
 							if (process.env.NODE_ENV !== 'production') console.log('Game Currently Live dd')
 							this.editPlayerSelection = false
-							this.$store.commit('setGameStatus', 'live')
+							// this.$store.commit('setGameStatus', 'live')
 							// eslint-disable-next-line no-undef
 							var queryH1 = new Parse.Query('Standings')
 							const users = await queryH1.find()
@@ -510,20 +490,10 @@ export default {
 							// this.live = true
 						}
 
-						if (response.data.dates[0].games[1].status.abstractGameCode === 'F') {
+						if (this.gameStatus === 'Final') {
 							this.editPlayerSelection = false
 							if (process.env.NODE_ENV !== 'production') console.log('GameOver 1')
-							this.$store.commit('setGameStatus', 'final')
-							// this.final = true
-							// eslint-disable-next-line no-undef
-							// var queryK = new Parse.Query('Standings')
-							// const users = await queryK.find()
-							// const usersFiltered = users.filter(
-							// 	(i) => i.attributes.userTeam.id === this.userItems[0].attributes.userTeam.id
-							// )
-							// if (usersFiltered[0].attributes.gamePointsSaved === false && this.userItems[0].attributes.userName === 'McFlyin') {
-							// 	this.saveUserPoints()
-							// }
+							// this.$store.commit('setGameStatus', 'final')
 							// eslint-disable-next-line no-undef
 							var queryJ1 = new Parse.Query('PlayerData')
 							queryJ1.equalTo('objectId', 'UNPypEjpTA')
@@ -553,16 +523,16 @@ export default {
 						}
 					} else {
 						// this is the for an day with 1 game - will be used the most
-						this.gameId = response.data.dates[0].games[0].gamePk
-						this.teamsPlaying = response.data.dates[0].games[0].teams
-						this.gameTime = moment(response.data.dates[0].games[0].gameDate).format('h:mm a')
-						this.gameDate = moment(response.data.dates[0].games[0].gameDate).format('MM-DD-YYYY')
+						// this.gameId = response.games[0].gamePk
+						this.teamsPlaying = this.schedule.games[0].teams
+						this.gameTime = moment(this.schedule.games[0].gameDate).format('h:mm a')
+						this.gameDate = moment(this.schedule.games[0].gameDate).format('MM-DD-YYYY')
 						this.getRoster()
 						this.getBoxScore()
 						// console.log(response.data.dates[0].games[0].status)
-						if (response.data.dates[0].games[0].status.abstractGameCode === 'P') {
+						if (this.gameStatus === 'Preview') {
 							if (process.env.NODE_ENV !== 'production') console.log('Pre-Game 1')
-							this.$store.commit('setGameStatus', 'pregame')
+							// this.$store.commit('setGameStatus', 'pregame')
 							// eslint-disable-next-line no-undef
 							var queryG1 = new Parse.Query('PlayerData')
 							queryG1.equalTo('objectId', 'UNPypEjpTA')
@@ -572,16 +542,16 @@ export default {
 								data.save()
 							})
 						}
-						if (response.data.dates[0].games[0].status.detailedState === 'Warmup') {
+						if (this.gameStatus === 'Warmup') {
 							if (process.env.NODE_ENV !== 'production') console.log('Warm Up 1')
-							this.$store.commit('setGameStatus', 'warmup')
+							// this.$store.commit('setGameStatus', 'warmup')
 							this.pointsSaved = false
 						}
-						if (response.data.dates[0].games[0].status.detailedState === 'In Progress') {
+						if (this.gameStatus === 'In Progress') {
 							if (process.env.NODE_ENV !== 'production') console.log('Game Currently Live 1')
 							this.editPlayerSelection = false
 							this.pointsSaved = false
-							this.$store.commit('setGameStatus', 'live')
+							// this.$store.commit('setGameStatus', 'live')
 							// eslint-disable-next-line no-undef
 							var queryH = new Parse.Query('Standings')
 							const users = await queryH.find()
@@ -612,10 +582,10 @@ export default {
 							})
 							// this.live = true
 						}
-						if (response.data.dates[0].games[0].status.abstractGameCode === 'F') {
+						if (this.gameStatus === 'Final') {
 							this.editPlayerSelection = false
 							if (process.env.NODE_ENV !== 'production') console.log('GameOver 1')
-							this.$store.commit('setGameStatus', 'final')
+							// this.$store.commit('setGameStatus', 'final')
 							// this.final = true
 							// eslint-disable-next-line no-undef
 							// var queryK = new Parse.Query('Standings')

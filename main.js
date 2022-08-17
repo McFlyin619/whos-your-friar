@@ -1,29 +1,39 @@
 const express = require('express')
-// var cors = require('cors')
 const serveStatic = require('serve-static')
 const path = require('path')
 const app = express()
 const port = process.env.PORT || 3000
-// app.use(cors())
+// MLB API Import
+const API = require('./src/api/MlbApi')
 
 app.use(serveStatic(path.join(__dirname, 'dist')))
 
-let count = '1'
+// Game Data
+let schedule
+let gameId
+let gameState
 
-app.get('/count', (req, res) => {
+app.get('/game-info', (req, res) => {
 	res.json({
-		changed: count
+		schedule: schedule,
+		gameId: gameId,
+		gameState: gameState
 	})
 })
 
-const background = function () {
-	console.log('backgroung executed')
-	setTimeout(background, 5000)
-	count++
+const currentSchedule = async () => {
+	const response = await API.getSchedule()
+	gameId = response.data.dates[0].games[0].gamePk
+	schedule = response.data.dates[0]
+	gameState = response.data.dates[0].games[0].status.detailedState
+	if (response.data.dates[0].games[0].status.detailedState === 'Preview') setTimeout(currentSchedule, 1800000)
+	if (response.data.dates[0].games[0].status.detailedState === 'Warmup') setTimeout(currentSchedule, 120000)
+	if (response.data.dates[0].games[0].status.detailedState === 'In Progress') setTimeout(currentSchedule, 30000)
+	if (response.data.dates[0].games[0].status.detailedState === 'Final') setTimeout(currentSchedule, 3600000)
 }
 
-background()
+currentSchedule()
 
 app.listen(port, () => {
-	console.log('MESS (Mongo Event Sourcing) listening at http://localhost:3000')
+	console.log('Running')
 })

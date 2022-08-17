@@ -22,10 +22,10 @@
 					<option disabled>------NL Central------</option>
 					<option v-for="team in getTeams.NLCentral" :key="team" :value="team">{{ team.name }}</option>
 				</select>
-				<h1 v-if="gameStatus === 'live'" class="mt-3">You can only select players before or after a game</h1>
+				<h1 v-if="gameStatus === 'In Progress'" class="mt-3">You can only select players before or after a game</h1>
 				<h1 v-else class="mt-3">Select Players</h1>
 				<select
-					:disabled="player2 !== null || teamRoster === null || gameStatus === 'live'"
+					:disabled="player2 !== null || teamRoster === null || gameStatus === 'In Progress'"
 					v-model="player1"
 					class="form-select mb-4"
 				>

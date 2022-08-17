@@ -22,7 +22,7 @@
 				<option disabled>------NL Central------</option>
 				<option v-for="team in getTeams.NLCentral" :key="team" :value="team">{{ team.name }}</option>
 			</select> -->
-			<div v-if="gameStatus === 'live'" class="table-responsive">
+			<div v-if="gameStatus === 'In Progress'" class="table-responsive">
 				<table class="table color-yellow text-center mt-5">
 					<thead>
 						<tr class="">
@@ -188,7 +188,7 @@
 								</div>
 							</td>
 							<td class="text-center text-success">
-								<span v-if="gameStatus === 'final'">{{ user.attributes.gamePoints > 0 ? '+' : '' }}{{ user.attributes.gamePoints }}</span>
+								<span v-if="gameStatus === 'Final'">{{ user.attributes.gamePoints > 0 ? '+' : '' }}{{ user.attributes.gamePoints }}</span>
 								<span v-else>0</span>
 							</td>
 							<td class="text-center text-success">
