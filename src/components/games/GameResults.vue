@@ -3,7 +3,7 @@
 		<div v-if="gameStatus === 'no games'">
 			<h1>No Games Today</h1>
 		</div>
-		<div v-if="(gameStatus === 'Preview' || gameStatus === 'Warmup') && userItems && boxscore && teamsPlaying">
+		<div v-if="(gameStatus === 'Scheduled' || gameStatus === 'Warmup') && userItems && boxscore && teamsPlaying">
 			<h2 class="text-center">Scheduled first pitch at {{ gameTime }}</h2>
 			<h4 class="text-center color-sand">
 				From {{ boxscore.data.teams.home.team.venue.name }} in {{ boxscore.data.teams.home.team.locationName }}

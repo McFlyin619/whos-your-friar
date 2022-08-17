@@ -82,11 +82,11 @@
 									</div>
 									<!-- <div class="row justify-content-between">
 										<div class="col-auto color-sand">Total Points</div>
-										<div class="col-auto text-success">{{ userItems && gameStatus === 'live' ? (userItems[0].attributes.userPoints + userSelectedPlayersTotalPoints) : userItems[0].attributes.userPoints }}</div>
+										<div class="col-auto text-success">{{ userItems && gameState === 'live' ? (userItems[0].attributes.userPoints + userSelectedPlayersTotalPoints) : userItems[0].attributes.userPoints }}</div>
 									</div>
 									<div class="row justify-content-between">
 										<div class="col-auto color-sand">Game Points</div>
-										<div class="col-auto text-success">{{ gameStatus === 'live' || gameStatus === 'final' ? userSelectedPlayersTotalPoints : 0 }}</div>
+										<div class="col-auto text-success">{{ gameState === 'live' || gameState === 'final' ? userSelectedPlayersTotalPoints : 0 }}</div>
 									</div> -->
 								</div>
 							</div>
@@ -197,7 +197,7 @@ export default {
 			usersHistory: null,
 			showPlays: null,
 			pointsSaved: false,
-			gameState: null,
+			gameStatus: null,
 			schedule: null
 		}
 	},
@@ -316,16 +316,16 @@ export default {
 			const result = await axios.get(`${process.env.VUE_APP_APIURL}game-info`)
 			console.log(result.data.schedule)
 			console.log(result.data.gameId)
-			console.log(result.data.gameState)
+			console.log(result.data.gameStatus)
 			console.log(moment().format('YYYY-MM-DD HH:mm'))
 			this.schedule = result.data.schedule
 			this.gameId = result.data.gameId
-			this.gameState = result.data.gameState
-			this.$store.commit('setGameStatus', result.data.gameState)
+			this.gameStatus = result.data.gameStatus
+			this.$store.commit('setGameStatus', result.data.gameStatus)
 			this.getInfo()
-			if (result.data.gameState === 'Preview') setTimeout(this.loadCount, 1800000)
-			if (result.data.gameState === 'Warmup') setTimeout(this.loadCount, 120000)
-			if (result.data.gameState === 'In Progress') setTimeout(this.loadCount, 30000)
+			if (result.data.gameStatus === 'Scheduled') setTimeout(this.loadCount, 1800000)
+			if (result.data.gameStatus === 'Warmup') setTimeout(this.loadCount, 120000)
+			if (result.data.gameStatus === 'In Progress') setTimeout(this.loadCount, 30000)
 		},
 		async getHistory () {
 			const yesterdaysGameDate = moment().subtract(1, 'days').format('MM-DD-YYYY')
@@ -441,7 +441,7 @@ export default {
 						this.getBoxScore()
 
 						// loads all necessary items for pre game
-						if (this.gameStatus === 'Preview') {
+						if (this.gameStatus === 'Scheduled') {
 							if (process.env.NODE_ENV !== 'production') console.log('Pre-Game dd')
 							// this.$store.commit('setGameStatus', 'pregame')
 							// eslint-disable-next-line no-undef
@@ -530,7 +530,7 @@ export default {
 						this.getRoster()
 						this.getBoxScore()
 						// console.log(response.data.dates[0].games[0].status)
-						if (this.gameStatus === 'Preview') {
+						if (this.gameStatus === 'Scheduled') {
 							if (process.env.NODE_ENV !== 'production') console.log('Pre-Game 1')
 							// this.$store.commit('setGameStatus', 'pregame')
 							// eslint-disable-next-line no-undef

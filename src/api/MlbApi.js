@@ -5,10 +5,14 @@ const moment = require('moment')
 moment().format()
 
 const getSchedule = async () => {
+	let date = moment().subtract(7, 'hours').format('YYYY-MM-DD')
+	if (process.env.NODE_ENV === 'staging') {
+		date = moment().format('YYYY-MM-DD')
+	}
 	const response = await api.getSchedule({
 		params: {
 			sportId: 1,
-			date: moment().format('YYYY-MM-DD'),
+			date: date,
 			teamId: 135
 		}
 	})
