@@ -317,14 +317,17 @@ export default {
 			console.log(result.data.schedule)
 			console.log(result.data.gameId)
 			console.log(result.data.gameStatus)
+			console.log(result.data.pointsSaved)
 			console.log(moment().format('YYYY-MM-DD HH:mm'))
 			this.schedule = result.data.schedule
 			this.gameId = result.data.gameId
 			this.gameStatus = result.data.gameStatus
+			this.pointsSaved = result.data.pointsSaved
 			this.$store.commit('setGameStatus', result.data.gameStatus)
 			this.getInfo()
 			if (result.data.gameStatus === 'Scheduled') setTimeout(this.loadGameData, 1800000)
 			if (result.data.gameStatus === 'Warmup') setTimeout(this.loadGameData, 120000)
+			if (result.data.gameStatus === 'Pre-Game') setTimeout(this.loadGameData, 120000)
 			if (result.data.gameStatus === 'In Progress') setTimeout(this.loadGameData, 30000)
 			if (result.data.gameStatus === 'Final') setTimeout(this.loadGameData, 3600000)
 		},
@@ -451,18 +454,9 @@ export default {
 							queryG.first().then((data) => {
 								// console.log(moment(data.attributes.monthStartDate).diff(moment(), 'days'))
 								if (data.attributes.allowEditPlayerSelection === true) this.editPlayerSelection = true
+								data.set('gameDataSaved', false)
 								data.save()
 							})
-						}
-						if (this.gameStatus === 'Warmup') {
-							if (process.env.NODE_ENV !== 'production') console.log('Warm Up dd')
-							// this.$store.commit('setGameStatus', 'warmup')
-							this.pointsSaved = false
-						}
-						if (this.gameStatus === 'In Progress') {
-							if (process.env.NODE_ENV !== 'production') console.log('Game Currently Live dd')
-							this.editPlayerSelection = false
-							// this.$store.commit('setGameStatus', 'live')
 							// eslint-disable-next-line no-undef
 							var queryH1 = new Parse.Query('Standings')
 							const users = await queryH1.find()
@@ -485,42 +479,54 @@ export default {
 							queryJ.equalTo('objectId', 'UNPypEjpTA')
 							queryJ.first().then((data) => {
 								data.set('gameDataSaved', false)
-								data.set('allowEditPlayerSelection', false)
 								data.save()
 							})
+						}
+						if (this.gameStatus === 'Warmup') {
+							if (process.env.NODE_ENV !== 'production') console.log('Warm Up dd')
+							// this.$store.commit('setGameStatus', 'warmup')
+							this.pointsSaved = false
+						}
+						if (this.gameStatus === 'In Progress') {
+							if (process.env.NODE_ENV !== 'production') console.log('Game Currently Live dd')
+							this.editPlayerSelection = false
+							// this.$store.commit('setGameStatus', 'live')
 							// this.live = true
 						}
 
 						if (this.gameStatus === 'Final') {
 							this.editPlayerSelection = false
 							if (process.env.NODE_ENV !== 'production') console.log('GameOver 1')
+							if (this.pointsSaved === false) {
+								this.saveUserPoints()
+							}
 							// this.$store.commit('setGameStatus', 'final')
 							// eslint-disable-next-line no-undef
-							var queryJ1 = new Parse.Query('PlayerData')
-							queryJ1.equalTo('objectId', 'UNPypEjpTA')
-							queryJ1.first().then((data) => {
-								if (data.attributes.gameDataSaved === false) {
-									data.set('allowEditPlayerSelection', false)
-									setTimeout(() => {
-										this.saveUserPoints()
-									}, 1000)
-									this.currentWeekDate = data.attributes.weekStartDate
-									// data.set('gameDataSaved', true)
-									data.save()
-								}
-								// if (data.attributes.gameDataSaved === false) {
-								// 	data.set('allowEditPlayerSelection', false)
-								// 	this.saveUserPoints()
-								// 	this.currentWeekDate = data.attributes.weekStartDate
-								// 	if (moment(this.currentWeekDate).from(moment()) === '8 days ago') {
-								// 		setTimeout(() => {
-								// 			this.clearWeeklyPlayers()
-								// 			data.set('allowEditPlayerSelection', true)
-								// 		}, 3000)
-								// 	}
-								// 	data.save()
-								// }
-							})
+							// var queryJ1 = new Parse.Query('PlayerData')
+							// queryJ1.equalTo('objectId', 'UNPypEjpTA')
+							// queryJ1.first().then((data) => {
+							// 	if (data.attributes.gameDataSaved === false) {
+							// 		data.set('allowEditPlayerSelection', false)
+							// 		setTimeout(() => {
+							// 			this.saveUserPoints()
+							// 		}, 1000)
+							// 		this.currentWeekDate = data.attributes.weekStartDate
+							// 		// data.set('gameDataSaved', true)
+							// 		data.save()
+							// 	}
+							// if (data.attributes.gameDataSaved === false) {
+							// 	data.set('allowEditPlayerSelection', false)
+							// 	this.saveUserPoints()
+							// 	this.currentWeekDate = data.attributes.weekStartDate
+							// 	if (moment(this.currentWeekDate).from(moment()) === '8 days ago') {
+							// 		setTimeout(() => {
+							// 			this.clearWeeklyPlayers()
+							// 			data.set('allowEditPlayerSelection', true)
+							// 		}, 3000)
+							// 	}
+							// 	data.save()
+							// }
+							// }
 						}
 					} else {
 						// this is the for an day with 1 game - will be used the most
