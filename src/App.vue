@@ -323,9 +323,10 @@ export default {
 			this.gameStatus = result.data.gameStatus
 			this.$store.commit('setGameStatus', result.data.gameStatus)
 			this.getInfo()
-			if (result.data.gameStatus === 'Scheduled') setTimeout(this.loadCount, 1800000)
-			if (result.data.gameStatus === 'Warmup') setTimeout(this.loadCount, 120000)
-			if (result.data.gameStatus === 'In Progress') setTimeout(this.loadCount, 30000)
+			if (result.data.gameStatus === 'Scheduled') setTimeout(this.loadGameData, 1800000)
+			if (result.data.gameStatus === 'Warmup') setTimeout(this.loadGameData, 120000)
+			if (result.data.gameStatus === 'In Progress') setTimeout(this.loadGameData, 30000)
+			if (result.data.gameStatus === 'Final') setTimeout(this.loadGameData, 3600000)
 		},
 		async getHistory () {
 			const yesterdaysGameDate = moment().subtract(1, 'days').format('MM-DD-YYYY')
