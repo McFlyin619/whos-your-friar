@@ -325,6 +325,7 @@ export default {
 			this.pointsSaved = result.data.pointsSaved
 			this.$store.commit('setGameStatus', result.data.gameStatus)
 			this.getInfo()
+			if (result.data.gameStatus === 'Preview') setTimeout(this.loadGameData, 1800000)
 			if (result.data.gameStatus === 'Scheduled') setTimeout(this.loadGameData, 1800000)
 			if (result.data.gameStatus === 'Warmup') setTimeout(this.loadGameData, 120000)
 			if (result.data.gameStatus === 'Pre-Game') setTimeout(this.loadGameData, 120000)
@@ -445,7 +446,7 @@ export default {
 						this.getBoxScore()
 
 						// loads all necessary items for pre game
-						if (this.gameStatus === 'Scheduled') {
+						if (this.gameStatus === 'Scheduled' || this.gameStatus === 'Preview') {
 							if (process.env.NODE_ENV !== 'production') console.log('Pre-Game dd')
 							// this.$store.commit('setGameStatus', 'pregame')
 							// eslint-disable-next-line no-undef
@@ -537,7 +538,7 @@ export default {
 						this.getRoster()
 						this.getBoxScore()
 						// console.log(response.data.dates[0].games[0].status)
-						if (this.gameStatus === 'Scheduled') {
+						if (this.gameStatus === 'Scheduled' || this.gameStatus === 'Preview') {
 							if (process.env.NODE_ENV !== 'production') console.log('Pre-Game 1')
 							// this.$store.commit('setGameStatus', 'pregame')
 							// eslint-disable-next-line no-undef
