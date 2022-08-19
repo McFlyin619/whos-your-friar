@@ -32,15 +32,15 @@
 									<div class="row justify-content-center">My Stats</div>
 									<div class="row justify-content-between">
 										<div class="col-auto color-sand">Position</div>
-										<div class="col-auto text-white">#{{ gameStatus === 'In Progress' ? currentUserPosition : userItems[0].attributes.currentPosition }} / {{ standings.length }}</div>
+										<div class="col-auto text-white">#{{ gameStatus === 'Live' ? currentUserPosition : userItems[0].attributes.currentPosition }} / {{ standings.length }}</div>
 									</div>
 									<div class="row justify-content-between">
 										<div class="col-auto color-sand">Total Points</div>
-										<div class="col-auto text-success">{{ userItems && gameStatus === 'In Progress' ? (userItems[0].attributes.userPoints + userSelectedPlayersTotalPoints) : userItems[0].attributes.userPoints }}</div>
+										<div class="col-auto text-success">{{ userItems && gameStatus === 'Live' ? (userItems[0].attributes.userPoints + userSelectedPlayersTotalPoints) : userItems[0].attributes.userPoints }}</div>
 									</div>
 									<div class="row justify-content-between">
 										<div class="col-auto color-sand">Game Points</div>
-										<div class="col-auto text-success">{{ gameStatus === 'In Progress' || gameStatus === 'Final' ? userSelectedPlayersTotalPoints : 0 }}</div>
+										<div class="col-auto text-success">{{ gameStatus === 'Live' || gameStatus === 'Final' ? userSelectedPlayersTotalPoints : 0 }}</div>
 									</div>
 								</div>
 							</div>
@@ -283,9 +283,9 @@ export default {
 		// 	return this.$store.state.gameStatus
 		// },
 		topPlayers () {
-			if (this.$store.state.standings && this.gameStatus !== 'In Progress') {
+			if (this.$store.state.standings && this.gameStatus !== 'Live') {
 				return this.standings.filter((i) => i.attributes.currentPosition <= 3 && i.attributes.currentPosition !== 0).sort((a, b) => a.attributes.currentPosition - b.attributes.currentPosition).map(i => i.attributes.userName)
-			} else if (this.$store.state.standings && this.gameStatus === 'In Progress') {
+			} else if (this.$store.state.standings && this.gameStatus === 'Live') {
 				this.currentStandings()
 				if (this.currentUserStandings !== null) return this.currentUserStandings.filter((ele, i) => (i + 1) <= 3).sort((a, b) => a - b).map(i => i.user.attributes.userName); else return null
 			} else {
@@ -328,7 +328,7 @@ export default {
 			if (result.data.gameStatus === 'Scheduled') setTimeout(this.loadGameData, 1800000)
 			if (result.data.gameStatus === 'Warmup') setTimeout(this.loadGameData, 120000)
 			if (result.data.gameStatus === 'Pre-Game') setTimeout(this.loadGameData, 120000)
-			if (result.data.gameStatus === 'In Progress') setTimeout(this.loadGameData, 30000)
+			if (result.data.gameStatus === 'Live') setTimeout(this.loadGameData, 30000)
 			if (result.data.gameStatus === 'Final') setTimeout(this.loadGameData, 3600000)
 		},
 		async getHistory () {
@@ -487,7 +487,7 @@ export default {
 							// this.$store.commit('setGameStatus', 'warmup')
 							this.pointsSaved = false
 						}
-						if (this.gameStatus === 'In Progress') {
+						if (this.gameStatus === 'Live') {
 							if (process.env.NODE_ENV !== 'production') console.log('Game Currently Live dd')
 							this.editPlayerSelection = false
 							// this.$store.commit('setGameStatus', 'live')
@@ -554,7 +554,7 @@ export default {
 							// this.$store.commit('setGameStatus', 'warmup')
 							this.pointsSaved = false
 						}
-						if (this.gameStatus === 'In Progress') {
+						if (this.gameStatus === 'Live') {
 							if (process.env.NODE_ENV !== 'production') console.log('Game Currently Live 1')
 							this.editPlayerSelection = false
 							this.pointsSaved = false

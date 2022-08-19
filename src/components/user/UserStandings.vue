@@ -22,7 +22,7 @@
 				<option disabled>------NL Central------</option>
 				<option v-for="team in getTeams.NLCentral" :key="team" :value="team">{{ team.name }}</option>
 			</select> -->
-			<div v-if="gameStatus === 'In Progress'" class="table-responsive">
+			<div v-if="gameStatus === 'Live'" class="table-responsive">
 				<table class="table color-yellow text-center mt-5">
 					<thead>
 						<tr class="">

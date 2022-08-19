@@ -186,7 +186,7 @@
 				</div>
 			</div>
 		</div> -->
-		<div v-if="userItems && boxscore && teamsPlaying && playerEvents && gamePlayByPlay && (gameStatus === 'In Progress' || gameStatus === 'Final')">
+		<div v-if="userItems && boxscore && teamsPlaying && playerEvents && gamePlayByPlay && (gameStatus === 'Live' || gameStatus === 'Final')">
 			<game-plays :boxscore="boxscore" :battingOrder="battingOrder" :playerEvents="playerEvents" :gamePlayByPlay="gamePlayByPlay" :teamsPlaying="teamsPlaying" :userSelectedPlayersTotalPoints="userSelectedPlayersTotalPoints" :userItems="userItems" :gameStatus="gameStatus" :editPlayer="editPlayer"></game-plays>
 		</div>
 	</div>
