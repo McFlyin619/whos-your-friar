@@ -593,6 +593,7 @@ export default {
 						if (this.gameStatus === 'Final') {
 							this.editPlayerSelection = false
 							if (process.env.NODE_ENV !== 'production') console.log('GameOver 1')
+							if (this.pointsSaved === false) this.saveUserPoints(); this.pointsSaved = true
 							// this.$store.commit('setGameStatus', 'final')
 							// this.final = true
 							// eslint-disable-next-line no-undef
@@ -605,19 +606,19 @@ export default {
 							// 	this.saveUserPoints()
 							// }
 							// eslint-disable-next-line no-undef
-							var queryJ11 = new Parse.Query('PlayerData')
-							queryJ11.equalTo('objectId', 'UNPypEjpTA')
-							queryJ11.first().then((data) => {
-								if (data.attributes.gameDataSaved === false) {
-									data.set('allowEditPlayerSelection', false)
-									setTimeout(() => {
-										this.saveUserPoints()
-									}, 500)
-									this.currentWeekDate = data.attributes.weekStartDate
-									// data.set('gameDataSaved', true)
-									data.save()
-								}
-							})
+							// var queryJ11 = new Parse.Query('PlayerData')
+							// queryJ11.equalTo('objectId', 'UNPypEjpTA')
+							// queryJ11.first().then((data) => {
+							// 	if (data.attributes.gameDataSaved === false) {
+							// 		data.set('allowEditPlayerSelection', false)
+							// 		setTimeout(() => {
+							// 			this.saveUserPoints()
+							// 		}, 500)
+							// 		this.currentWeekDate = data.attributes.weekStartDate
+							// 		// data.set('gameDataSaved', true)
+							// 		data.save()
+							// 	}
+							// })
 						}
 					}
 				} else {
