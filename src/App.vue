@@ -329,6 +329,7 @@ export default {
 			if (result.data.gameStatus === 'Pre-Game') setTimeout(this.loadGameData, 120000)
 			if (result.data.gameStatus === 'Live') setTimeout(this.loadGameData, 30000)
 			if (result.data.gameStatus === 'Final') setTimeout(this.loadGameData, 3600000)
+			if (result.data.gameStatus === undefined) setTimeout(this.loadGameData, 3600000); console.log('No game')
 		},
 		async getHistory () {
 			const yesterdaysGameDate = moment().subtract(1, 'days').format('MM-DD-YYYY')
@@ -427,7 +428,7 @@ export default {
 				// 	}
 				// })
 				// console.log(response.data.dates[0].games[0].status)
-				if (this.schedule !== undefined) {
+				if (this.gameStatus !== undefined) {
 					// If there is a double header it checks for a second game and if the first game is done
 					if (
 						this.schedule.games[1] &&
