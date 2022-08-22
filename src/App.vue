@@ -769,14 +769,8 @@ export default {
 					data.save()
 				}
 			})
-			const response = await this.api.getSchedule({
-				params: {
-					sportId: 1,
-					date: this.date !== null ? this.date : this.convertedDate,
-					teamId: this.userItems[0].attributes.userTeam.id
-				}
-			})
-			if (response.data.dates[0].games[0].status.abstractGameCode === 'F') {
+
+			if (this.gameStatus === 'Final') {
 				if (process.env.NODE_ENV !== 'production') console.log('saving user points 1')
 				// eslint-disable-next-line no-undef
 				var query = new Parse.Query('Standings')
