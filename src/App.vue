@@ -382,6 +382,7 @@ export default {
 			this.gameId = result.data.gameId
 			this.gameStatus = result.data.gameStatus
 			this.$store.commit('setGameStatus', result.data.gameStatus)
+			this.getInfo()
 			if (result.data.gameStatus === 'Preview') setTimeout(this.loadGameData, 1800000)
 			if (result.data.gameStatus === 'Scheduled') setTimeout(this.loadGameData, 1800000)
 			if (result.data.gameStatus === 'Warmup') setTimeout(this.loadGameData, 120000)
@@ -483,7 +484,15 @@ export default {
 			}
 		},
 		async getInfo () {
-			this.loadGameData()
+			const result = await axios.get(`${process.env.VUE_APP_APIURL}game-info`)
+			console.log(result.data.schedule)
+			console.log(result.data.gameId)
+			console.log(result.data.gameStatus)
+			console.log(moment().format('YYYY-MM-DD HH:mm'))
+			this.schedule = result.data.schedule
+			this.gameId = result.data.gameId
+			this.gameStatus = result.data.gameStatus
+			this.$store.commit('setGameStatus', result.data.gameStatus)
 			await this.sleep(800)
 			this.tomorrowsGame()
 			if (process.env.NODE_ENV !== 'production') console.log('getInfo')
