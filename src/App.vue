@@ -1,86 +1,126 @@
 <template>
-		<div class="grid-container">
-			<div class="wrapper ">
-				<base-loader v-if="isLoading"></base-loader>
-				<nav-bar v-if="userItems" :userItems="userItems"></nav-bar>
-					<div v-if="isAuth" class="container">
-						<!-- <button v-if="userItems[0].attributes.userName === 'McFlyin'" @click="clearWeeklyPlayers"> clear weekly players</button> -->
-						<!-- <button v-if="userItems[0].attributes.userName === 'McFlyin'" @click="saveUserPoints">save history</button> -->
-						<div class="row row-cols-1 row-cols-md-5 g-2 mb-4 mt-2">
-							<div class="col text-center">
-								<a target="_blank" href="https://shareasale.com/r.cfm?b=1396852&amp;u=3344587&amp;m=90184&amp;urllink=&amp;afftrack="><img class="ad-img" src="https://static.shareasale.com/image/90184/logolandscape_clipped_rev_1_170x2xSquar.jpg" border="0" alt="757 Sports Collectibles" /></a>
+	<div class="grid-container">
+		<div class="wrapper">
+			<base-loader v-if="isLoading"></base-loader>
+			<nav-bar v-if="userItems" :userItems="userItems"></nav-bar>
+			<div v-if="isAuth" class="container">
+				<!-- <button v-if="userItems[0].attributes.userName === 'McFlyin'" @click="clearWeeklyPlayers"> clear weekly players</button> -->
+				<!-- <button v-if="userItems[0].attributes.userName === 'McFlyin'" @click="saveUserPoints">save history</button> -->
+				<div class="row row-cols-1 row-cols-md-5 g-2 mb-4 mt-2">
+					<div class="col text-center">
+						<a
+							target="_blank"
+							href="https://shareasale.com/r.cfm?b=1396852&amp;u=3344587&amp;m=90184&amp;urllink=&amp;afftrack="
+							><img
+								class="ad-img"
+								src="https://static.shareasale.com/image/90184/logolandscape_clipped_rev_1_170x2xSquar.jpg"
+								border="0"
+								alt="757 Sports Collectibles"
+						/></a>
+					</div>
+					<div class="col border-yellow user-standing">
+						<div v-if="isLoading" class="d-flex justify-content-center">
+							<div class="spinner-border" role="status">
+								<span class="visually-hidden">Loading...</span>
 							</div>
-							<div class="col border-yellow user-standing">
-								<div v-if="isLoading" class="d-flex justify-content-center">
-									<div class="spinner-border" role="status">
-										<span class="visually-hidden">Loading...</span>
-									</div>
-
-								</div>
-								<div v-else class="score">
-									<div class="row justify-content-center">Top Players</div>
-									<div class="row justify-content-md-center text-white d-block" v-for="(p, index) in topPlayers" :key="p"><span class="color-sand">{{ index + 1 }}.</span> {{p}}</div>
+						</div>
+						<div v-else class="score">
+							<div class="row justify-content-center">Top Players</div>
+							<div
+								class="row justify-content-md-center text-white d-block"
+								v-for="(p, index) in topPlayers"
+								:key="p"
+							>
+								<span class="color-sand">{{ index + 1 }}.</span> {{ p }}
+							</div>
+						</div>
+					</div>
+					<div class="col border-yellow user-standing">
+						<div v-if="isLoading" class="d-flex justify-content-center">
+							<div class="spinner-border" role="status">
+								<span class="visually-hidden">Loading...</span>
+							</div>
+						</div>
+						<div v-else-if="userItems" class="score">
+							<div class="row justify-content-center">My Stats</div>
+							<div class="row justify-content-between">
+								<div class="col-auto color-sand">Position</div>
+								<div class="col-auto text-white">
+									#{{
+										gameStatus === 'Live'
+											? currentUserPosition
+											: userItems[0].attributes.currentPosition
+									}}
+									/ {{ standings.length }}
 								</div>
 							</div>
-							<div class="col border-yellow user-standing">
-								<div v-if="isLoading" class="d-flex justify-content-center">
-									<div class="spinner-border" role="status">
-										<span class="visually-hidden">Loading...</span>
-									</div>
-								</div>
-								<div v-else-if="userItems" class="score">
-									<div class="row justify-content-center">My Stats</div>
-									<div class="row justify-content-between">
-										<div class="col-auto color-sand">Position</div>
-										<div class="col-auto text-white">#{{ gameStatus === 'Live' ? currentUserPosition : userItems[0].attributes.currentPosition }} / {{ standings.length }}</div>
-									</div>
-									<div class="row justify-content-between">
-										<div class="col-auto color-sand">Total Points</div>
-										<div class="col-auto text-success">{{ userItems && gameStatus === 'Live' ? (userItems[0].attributes.userPoints + userSelectedPlayersTotalPoints) : userItems[0].attributes.userPoints }}</div>
-									</div>
-									<div class="row justify-content-between">
-										<div class="col-auto color-sand">Game Points</div>
-										<div class="col-auto text-success">{{ gameStatus === 'Live' || gameStatus === 'Final' ? userSelectedPlayersTotalPoints : 0 }}</div>
-									</div>
+							<div class="row justify-content-between">
+								<div class="col-auto color-sand">Total Points</div>
+								<div class="col-auto text-success">
+									{{
+										userItems && gameStatus === 'Live'
+											? userItems[0].attributes.userPoints + userSelectedPlayersTotalPoints
+											: userItems[0].attributes.userPoints
+									}}
 								</div>
 							</div>
-							<div class="col border-yellow user-standing">
-								<div v-if="isLoading" class="d-flex justify-content-center">
-									<div class="spinner-border" role="status">
-										<span class="visually-hidden">Loading...</span>
-									</div>
+							<div class="row justify-content-between">
+								<div class="col-auto color-sand">Game Points</div>
+								<div class="col-auto text-success">
+									{{
+										gameStatus === 'Live' || gameStatus === 'Final'
+											? userSelectedPlayersTotalPoints
+											: 0
+									}}
 								</div>
-								<div v-else-if="!gameHistory || editPlayer" class="score">
-									<div class="row justify-content-center">No History Available</div>
+							</div>
+						</div>
+					</div>
+					<div class="col border-yellow user-standing">
+						<div v-if="isLoading" class="d-flex justify-content-center">
+							<div class="spinner-border" role="status">
+								<span class="visually-hidden">Loading...</span>
+							</div>
+						</div>
+						<div v-else-if="!gameHistory || editPlayer" class="score">
+							<div class="row justify-content-center">No History Available</div>
+						</div>
+						<div v-else-if="!editPlayer" class="score">
+							<div class="row justify-content-center d-block">
+								<span class="text-white-50 me-0">{{ historyDate }}</span> Game Stats
+							</div>
+							<div v-for="p in userHistory" :key="p" class="row justify-content-between">
+								<div
+									role="button"
+									@click="showPlays === null ? (showPlays = p.name) : (showPlays = null)"
+									class="col-auto color-sand"
+								>
+									<i v-if="showPlays === p.name" class="fas fa-caret-down me-2 text-white"></i>
+									<i v-else class="fas fa-caret-right me-2"></i>
+									{{ p.name }}
 								</div>
-								<div v-else-if="!editPlayer" class="score">
-									<div class="row justify-content-center d-block"><span class="text-white-50 me-0">{{ historyDate }}</span> Game Stats</div>
-									<div v-for="p in userHistory" :key="p" class="row justify-content-between">
-										<div role="button" @click="showPlays === null ? showPlays = p.name : showPlays = null" class="col-auto color-sand">
-											<i v-if="showPlays === p.name" class="fas fa-caret-down me-2 text-white"></i>
-											<i v-else class="fas fa-caret-right me-2"></i>
-											{{ p.name }}
-										</div>
-										<div class="col-auto" :class="{'text-success': p.points > 0, 'text-white': p.points === 0}">+{{ p.points}}</div>
-										<div v-show="showPlays === p.name">
-											<div
-												class="text-white ms-5"
-												v-for="play in p.plays.s"
-												:key="play"
+								<div
+									class="col-auto"
+									:class="{ 'text-success': p.points > 0, 'text-white': p.points === 0 }"
+								>
+									+{{ p.points }}
+								</div>
+								<div v-show="showPlays === p.name">
+									<div class="text-white ms-5" v-for="play in p.plays.s" :key="play">
+										<p class="mb-0">
+											<small class="color-sand"
+												>{{ play.about.halfInning.toUpperCase() }}
+												{{ play.about.inning }}</small
 											>
-												<p class="mb-0">
-													<small class="color-sand"
-														>{{ play.about.halfInning.toUpperCase() }} {{ play.about.inning }}</small
-													>
-													&#183; <small>{{ play.result.event }}</small>
-													<small v-if="play.result.rbi > 0">
-														- {{ play.result.rbi }} RBI{{ play.result.rbi > 1 ? "'s" : '' }}</small
-													>
-												</p>
-											</div>
-										</div>
+											&#183; <small>{{ play.result.event }}</small>
+											<small v-if="play.result.rbi > 0">
+												- {{ play.result.rbi }} RBI{{ play.result.rbi > 1 ? "'s" : '' }}</small
+											>
+										</p>
 									</div>
-									<!-- <div class="row justify-content-between">
+								</div>
+							</div>
+							<!-- <div class="row justify-content-between">
 										<div class="col-auto color-sand">Total Points</div>
 										<div class="col-auto text-success">{{ userItems && gameState === 'live' ? (userItems[0].attributes.userPoints + userSelectedPlayersTotalPoints) : userItems[0].attributes.userPoints }}</div>
 									</div>
@@ -88,63 +128,71 @@
 										<div class="col-auto color-sand">Game Points</div>
 										<div class="col-auto text-success">{{ gameState === 'live' || gameState === 'final' ? userSelectedPlayersTotalPoints : 0 }}</div>
 									</div> -->
-								</div>
-							</div>
-							<div class="col border-yellow user-standing">
-								<div v-if="isLoading" class="d-flex justify-content-center">
-									<div class="spinner-border" role="status">
-										<span class="visually-hidden">Loading...</span>
-									</div>
-								</div>
-								<div v-else-if="tomorrowsBoxscore !== null && tomorrowsGameInfo !== null">
-									<div class="score" v-if="tomorrowsGameInfo === 'No Game'">No Game Tomorrow</div>
-									<div v-else class="score">
-										<div class="row justify-content-center time me-1">
-											Tomorrow {{ tomorrowsGameTime}}
-										</div>
-										<div class="row mt-3 d-flex justify-content-between">
-											<div class="col text-white team">{{ tomorrowsBoxscore.data.teams.away.team.abbreviation }}</div>
-											<div class="col align-self-center text-end color-sand"> {{ tomorrowsGameInfo.teams.away.leagueRecord.wins }} - {{ tomorrowsGameInfo.teams.away.leagueRecord.losses }}</div>
-										</div>
-										<div class="row d-flex justify-content-between">
-											<div class="col text-white team">{{ tomorrowsBoxscore.data.teams.home.team.abbreviation }}</div>
-											<div class="col align-self-center color-sand text-end"> {{ tomorrowsGameInfo.teams.home.leagueRecord.wins }} - {{ tomorrowsGameInfo.teams.home.leagueRecord.losses }}</div>
-										</div>
-									</div>
-								</div>
-							</div>
-						</div>
-						<div class="text-center">
-							<h4 class="font-grad"><span class="text-white">Champion</span> sugarcanechop</h4>
 						</div>
 					</div>
-					<router-view
-						:isAuth="isAuth"
-						:currentUser="currentUser"
-						:editPlayer="editPlayer"
-						:loadGameInfo="loadGameInfo"
-						:points="points"
-						@getInfo="getInfo"
-						@clearUserPlayers="clearWeeklyPlayers"
-						@editPlayerSelection="setEditPlayerSelection"
-						@loadGameInfo="setLoadGameInfo"
-						@points="setPoints"
-						@events="playerEvents"
-						@currentStandings="currentStandings"
-						:boxscore="boxscore"
-						:battingOrder="battingOrder"
-						:playerEvents="playerEvents"
-						:gamePlayByPlay="gamePlayByPlay"
-						:teamsPlaying="teamsPlaying"
-						:userSelectedPlayersTotalPoints="userSelectedPlayersTotalPoints"
-						:userItems="userItems"
-						:gameStatus="gameStatus"
-						:gameTime="gameTime"
-						:teamRoster="teamRoster"
-					></router-view>
+					<div class="col border-yellow user-standing">
+						<div v-if="isLoading" class="d-flex justify-content-center">
+							<div class="spinner-border" role="status">
+								<span class="visually-hidden">Loading...</span>
+							</div>
+						</div>
+						<div v-else-if="tomorrowsBoxscore !== null && tomorrowsGameInfo !== null">
+							<div class="score" v-if="tomorrowsGameInfo === 'No Game'">No Game Tomorrow</div>
+							<div v-else class="score">
+								<div class="row justify-content-center time me-1">Tomorrow {{ tomorrowsGameTime }}</div>
+								<div class="row mt-3 d-flex justify-content-between">
+									<div class="col text-white team">
+										{{ tomorrowsBoxscore.data.teams.away.team.abbreviation }}
+									</div>
+									<div class="col align-self-center text-end color-sand">
+										{{ tomorrowsGameInfo.teams.away.leagueRecord.wins }} -
+										{{ tomorrowsGameInfo.teams.away.leagueRecord.losses }}
+									</div>
+								</div>
+								<div class="row d-flex justify-content-between">
+									<div class="col text-white team">
+										{{ tomorrowsBoxscore.data.teams.home.team.abbreviation }}
+									</div>
+									<div class="col align-self-center color-sand text-end">
+										{{ tomorrowsGameInfo.teams.home.leagueRecord.wins }} -
+										{{ tomorrowsGameInfo.teams.home.leagueRecord.losses }}
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="text-center">
+					<h4 class="font-grad"><span class="text-white">Champion</span> sugarcanechop</h4>
+				</div>
 			</div>
-			<footer-bar class="mt-5"></footer-bar>
+			<router-view
+				:isAuth="isAuth"
+				:currentUser="currentUser"
+				:editPlayer="editPlayer"
+				:loadGameInfo="loadGameInfo"
+				:points="points"
+				@getInfo="getInfo"
+				@clearUserPlayers="clearWeeklyPlayers"
+				@editPlayerSelection="setEditPlayerSelection"
+				@loadGameInfo="setLoadGameInfo"
+				@points="setPoints"
+				@events="playerEvents"
+				@currentStandings="currentStandings"
+				:boxscore="boxscore"
+				:battingOrder="battingOrder"
+				:playerEvents="playerEvents"
+				:gamePlayByPlay="gamePlayByPlay"
+				:teamsPlaying="teamsPlaying"
+				:userSelectedPlayersTotalPoints="userSelectedPlayersTotalPoints"
+				:userItems="userItems"
+				:gameStatus="gameStatus"
+				:gameTime="gameTime"
+				:teamRoster="teamRoster"
+			></router-view>
 		</div>
+		<footer-bar class="mt-5"></footer-bar>
+	</div>
 </template>
 
 <script>
@@ -210,7 +258,8 @@ export default {
 			}
 		},
 		isAuth (val) {
-			if (val === true) this.$store.dispatch('getStandings'); this.getEdit()
+			if (val === true) this.$store.dispatch('getStandings')
+			this.getEdit()
 		}
 		// userItems (val) {
 		// 	if (val !== null) {
@@ -228,9 +277,9 @@ export default {
 		// this.getInfo()
 		this.$store.dispatch('test')
 		this.loadGameData()
-	// 	setTimeout(() => {
-	// 		this.getInfo()
-	// 	}, 500)
+		// 	setTimeout(() => {
+		// 		this.getInfo()
+		// 	}, 500)
 	},
 	computed: {
 		convertedDate () {
@@ -252,7 +301,7 @@ export default {
 			return this.$store.state.standings
 		},
 		champion () {
-			return this.$store.state.standings.filter(i => i.attributes.winner === 'yes')
+			return this.$store.state.standings.filter((i) => i.attributes.winner === 'yes')
 		},
 		userItems () {
 			if (this.currentUser && this.$store.state.standings) {
@@ -266,7 +315,9 @@ export default {
 				if (this.userItems[0].attributes.currentPlayers) {
 					const players = Object.values(this.playerEvents)
 						.filter((i) =>
-							this.userItems[0].attributes.currentPlayers.some((j) => i.name.split('.').join('') === j.person.fullName.split('.').join(''))
+							this.userItems[0].attributes.currentPlayers.some(
+								(j) => i.name.split('.').join('') === j.person.fullName.split('.').join('')
+							)
 						)
 						.map((i) => i.points)
 					const points = players.reduce((a, b) => a + b, 0)
@@ -284,10 +335,18 @@ export default {
 		// },
 		topPlayers () {
 			if (this.$store.state.standings && this.gameStatus !== 'Live') {
-				return this.standings.filter((i) => i.attributes.currentPosition <= 3 && i.attributes.currentPosition !== 0).sort((a, b) => a.attributes.currentPosition - b.attributes.currentPosition).map(i => i.attributes.userName)
+				return this.standings
+					.filter((i) => i.attributes.currentPosition <= 3 && i.attributes.currentPosition !== 0)
+					.sort((a, b) => a.attributes.currentPosition - b.attributes.currentPosition)
+					.map((i) => i.attributes.userName)
 			} else if (this.$store.state.standings && this.gameStatus === 'Live') {
 				this.currentStandings()
-				if (this.currentUserStandings !== null) return this.currentUserStandings.filter((ele, i) => (i + 1) <= 3).sort((a, b) => a - b).map(i => i.user.attributes.userName); else return null
+				if (this.currentUserStandings !== null) {
+					return this.currentUserStandings
+						.filter((ele, i) => i + 1 <= 3)
+						.sort((a, b) => a - b)
+						.map((i) => i.user.attributes.userName)
+				} else return null
 			} else {
 				return null
 			}
@@ -299,7 +358,8 @@ export default {
 					// if (this.gameStatus === 'final') game = this.playerEvents
 					const players = Object.values(this.gameHistory).filter((playerEvents) =>
 						this.userItems[0].attributes.currentPlayers.some(
-							(player) => playerEvents.name.split('.').join('') === player.person.fullName.split('.').join('')
+							(player) =>
+								playerEvents.name.split('.').join('') === player.person.fullName.split('.').join('')
 						)
 					)
 					return players
@@ -329,7 +389,8 @@ export default {
 			if (result.data.gameStatus === 'Pre-Game') setTimeout(this.loadGameData, 120000)
 			if (result.data.gameStatus === 'Live') setTimeout(this.loadGameData, 30000)
 			if (result.data.gameStatus === 'Final') setTimeout(this.loadGameData, 3600000)
-			if (result.data.gameStatus === undefined) setTimeout(this.loadGameData, 3600000); console.log('No game')
+			if (result.data.gameStatus === undefined) setTimeout(this.loadGameData, 3600000)
+			console.log('No game')
 		},
 		async getHistory () {
 			const yesterdaysGameDate = moment().subtract(1, 'days').format('MM-DD-YYYY')
@@ -354,7 +415,8 @@ export default {
 					if (this.standings[user].attributes.currentPlayers !== null) {
 						const players = Object.values(this.playerEvents).filter((playerEvents) =>
 							this.standings[user].attributes.currentPlayers.some(
-								(player) => playerEvents.name.split('.').join('') === player.person.fullName.split('.').join('')
+								(player) =>
+									playerEvents.name.split('.').join('') === player.person.fullName.split('.').join('')
 							)
 						)
 
@@ -378,14 +440,17 @@ export default {
 						usersPoints.push(points)
 					}
 				}
-				const standings = usersPoints.sort((a, b) => b.total - a.total).sort((a, b) => {
-					if (b.total === a.total) {
-						return b.gamePoints - a.gamePoints
-					}
-				}).sort((a, b) => {
-					if (b.players === null) return 1
-					if (a.players === null) return 1
-				})
+				const standings = usersPoints
+					.sort((a, b) => b.total - a.total)
+					.sort((a, b) => {
+						if (b.total === a.total) {
+							return b.gamePoints - a.gamePoints
+						}
+					})
+					.sort((a, b) => {
+						if (b.players === null) return 1
+						if (a.players === null) return 1
+					})
 				let pos
 				standings.forEach((ele, index) => {
 					if (ele.user.attributes.userName === this.currentUser.username) {
@@ -406,7 +471,9 @@ export default {
 					}
 				})
 				if (response.data.dates[0] !== undefined) {
-					const boxResponse = await this.api.getGameBoxscore({ pathParams: { gamePk: response.data.dates[0].games[0].gamePk } })
+					const boxResponse = await this.api.getGameBoxscore({
+						pathParams: { gamePk: response.data.dates[0].games[0].gamePk }
+					})
 					this.tomorrowsBoxscore = boxResponse
 					this.tomorrowsGameTime = moment(response.data.dates[0].games[0].gameDate).format('h:mm a')
 					this.tomorrowsGameInfo = response.data.dates[0].games[0]
@@ -417,6 +484,8 @@ export default {
 			}
 		},
 		async getInfo () {
+			this.loadGameData()
+			await this.sleep(800)
 			this.tomorrowsGame()
 			if (process.env.NODE_ENV !== 'production') console.log('getInfo')
 			if (this.userItems && this.userItems[0].attributes.userTeam !== undefined) {
@@ -430,10 +499,7 @@ export default {
 				// console.log(response.data.dates[0].games[0].status)
 				if (this.gameStatus !== undefined) {
 					// If there is a double header it checks for a second game and if the first game is done
-					if (
-						this.schedule.games[1] &&
-						this.gameStatus === 'Final'
-					) {
+					if (this.schedule.games[1] && this.gameStatus === 'Final') {
 						this.gameId = this.schedule.games[1].gamePk
 
 						this.teamsPlaying = this.schedule.games[1].teams
@@ -746,7 +812,7 @@ export default {
 			this.$store.commit('setPlayerEvents', this.playerEvents)
 		},
 		async sleep (ms) {
-			return new Promise(resolve => setTimeout(resolve, ms))
+			return new Promise((resolve) => setTimeout(resolve, ms))
 		},
 		async saveHistory () {
 			if (process.env.NODE_ENV !== 'production') console.log('saving game history 1')
@@ -777,7 +843,9 @@ export default {
 				var query = new Parse.Query('Standings')
 				const users = await query.find()
 				const usersFiltered = users.filter(
-					(i) => i.attributes.userTeam.id === this.userItems[0].attributes.userTeam.id && i.attributes.currentPlayers !== null
+					(i) =>
+						i.attributes.userTeam.id === this.userItems[0].attributes.userTeam.id &&
+						i.attributes.currentPlayers !== null
 				)
 				for (const i in usersFiltered) {
 					if (usersFiltered[i].attributes.currentPlayers) {
@@ -874,7 +942,7 @@ export default {
 					})
 					console.log(pos + ' ' + element.attributes.userName)
 					console.log(index + ' ' + element.attributes.userName)
-					u.set('currentPosition', (pos + 1))
+					u.set('currentPosition', pos + 1)
 					u.save()
 				})
 			})
@@ -932,25 +1000,25 @@ export default {
 
 <style scoped>
 .bounce-enter-active {
-  animation: bounce-in 1.5s;
+	animation: bounce-in 1.5s;
 }
 .bounce-leave-active {
-  animation: bounce-in 1.5s reverse;
+	animation: bounce-in 1.5s reverse;
 }
 @keyframes bounce-in {
-  0% {
-    transform: scale(0);
-  }
-  50% {
-    transform: scale(1.55);
-  }
-  100% {
-    transform: scale(1);
-  }
+	0% {
+		transform: scale(0);
+	}
+	50% {
+		transform: scale(1.55);
+	}
+	100% {
+		transform: scale(1);
+	}
 }
 
 .score {
-	padding:10px;
+	padding: 10px;
 	min-height: 10vh;
 }
 
@@ -963,8 +1031,8 @@ export default {
 }
 
 .ad-img {
-	max-width:100%;
-	max-height:100%;
-	border-radius: 5px
+	max-width: 100%;
+	max-height: 100%;
+	border-radius: 5px;
 }
 </style>
