@@ -213,7 +213,7 @@ export default {
 		NavBar,
 		FooterBar
 	},
-	data () {
+	data() {
 		return {
 			api: new MLBStatsAPI(),
 			// convertedDate: null,
@@ -250,14 +250,14 @@ export default {
 		}
 	},
 	watch: {
-		apiState (val) {
+		apiState(val) {
 			if (val === 1) {
 				this.isLoading = true
 			} else {
 				this.isLoading = false
 			}
 		},
-		isAuth (val) {
+		isAuth(val) {
 			if (val === true) this.$store.dispatch('getStandings')
 			this.getEdit()
 		}
@@ -267,7 +267,7 @@ export default {
 		// 	}
 		// }
 	},
-	created () {
+	created() {
 		this.$store.dispatch('tryLogin')
 		// this.convertedDate = moment().format('YYYY-MM-DD')
 		// this.$store.dispatch('getStandings')
@@ -282,35 +282,35 @@ export default {
 		// 	}, 500)
 	},
 	computed: {
-		convertedDate () {
+		convertedDate() {
 			return moment().format('YYYY-MM-DD')
 		},
-		apiState () {
+		apiState() {
 			return this.$store.state.apiState
 		},
-		isAuth () {
+		isAuth() {
 			return !!this.$store.state.token
 		},
-		isGameDataSaved () {
+		isGameDataSaved() {
 			return this.$store.state.gameDataSaved
 		},
-		currentUser () {
+		currentUser() {
 			return this.$store.state.currentUser
 		},
-		standings () {
+		standings() {
 			return this.$store.state.standings
 		},
-		champion () {
+		champion() {
 			return this.$store.state.standings.filter((i) => i.attributes.winner === 'yes')
 		},
-		userItems () {
+		userItems() {
 			if (this.currentUser && this.$store.state.standings) {
 				return this.$store.state.standings.filter((i) => i.attributes.userName === this.currentUser.username)
 			} else {
 				return null
 			}
 		},
-		userSelectedPlayersTotalPoints () {
+		userSelectedPlayersTotalPoints() {
 			if (this.currentUser && this.playerEvents && this.$store.state.standings) {
 				if (this.userItems[0].attributes.currentPlayers) {
 					const players = Object.values(this.playerEvents)
@@ -333,7 +333,7 @@ export default {
 		// gameStatus () {
 		// 	return this.$store.state.gameStatus
 		// },
-		topPlayers () {
+		topPlayers() {
 			if (this.$store.state.standings && this.gameStatus !== 'Live') {
 				return this.standings
 					.filter((i) => i.attributes.currentPosition <= 3 && i.attributes.currentPosition !== 0)
@@ -351,7 +351,7 @@ export default {
 				return null
 			}
 		},
-		userHistory () {
+		userHistory() {
 			if (this.userItems[0]) {
 				if (this.userItems[0].attributes.currentPlayers !== null && this.gameHistory !== null) {
 					// var game = this.gameHistory
@@ -372,7 +372,7 @@ export default {
 		}
 	},
 	methods: {
-		async loadGameData () {
+		async loadGameData() {
 			const result = await axios.get(`${process.env.VUE_APP_APIURL}game-info`)
 			console.log(result.data.schedule)
 			console.log(result.data.gameId)
@@ -392,7 +392,7 @@ export default {
 			if (result.data.gameStatus === undefined) setTimeout(this.loadGameData, 3600000)
 			console.log('No game')
 		},
-		async getHistory () {
+		async getHistory() {
 			const yesterdaysGameDate = moment().subtract(1, 'days').format('MM-DD-YYYY')
 			// var currentGameDate = yesterdaysGameDate
 			// if (this.gameStatus === 'final') currentGameDate = this.gameDate
@@ -408,7 +408,7 @@ export default {
 				}
 			})
 		},
-		currentStandings () {
+		currentStandings() {
 			const usersPoints = []
 			if (this.standings.length > 0 && this.playerEvents) {
 				for (const user in this.standings) {
@@ -461,7 +461,7 @@ export default {
 				this.currentUserPosition = pos
 			}
 		},
-		async tomorrowsGame () {
+		async tomorrowsGame() {
 			if (this.userItems && this.userItems[0].attributes.userTeam !== undefined) {
 				const response = await this.api.getSchedule({
 					params: {
@@ -483,12 +483,8 @@ export default {
 				}
 			}
 		},
-		async getInfo () {
+		async getInfo() {
 			const result = await axios.get(`${process.env.VUE_APP_APIURL}game-info`)
-			console.log(result.data.schedule)
-			console.log(result.data.gameId)
-			console.log(result.data.gameStatus)
-			console.log(moment().format('YYYY-MM-DD HH:mm'))
 			this.schedule = result.data.schedule
 			this.gameId = result.data.gameId
 			this.gameStatus = result.data.gameStatus
@@ -679,6 +675,7 @@ export default {
 									setTimeout(() => {
 										this.saveUserPoints()
 									}, 500)
+									data.set('gameDataSaved', true)
 									this.currentWeekDate = data.attributes.weekStartDate
 									// data.set('gameDataSaved', true)
 									data.save()
@@ -700,7 +697,7 @@ export default {
 			}
 			this.getHistory()
 		},
-		async getRoster () {
+		async getRoster() {
 			if (process.env.NODE_ENV !== 'production') console.log('retrieving roster')
 			// Retrieves the team roster
 			const response = await this.api.getTeamRoster({
@@ -709,13 +706,13 @@ export default {
 			this.teamRoster = response.data.roster
 			this.$store.commit('setApiState', ENUM.LOADED)
 		},
-		async getBoxScore () {
+		async getBoxScore() {
 			if (process.env.NODE_ENV !== 'production') console.log('getting boxscore')
 			const response = await this.api.getGameBoxscore({ pathParams: { gamePk: this.gameId } })
 			this.boxscore = response
 			this.getGamePlayByPlay()
 		},
-		async getGamePlayByPlay () {
+		async getGamePlayByPlay() {
 			if (process.env.NODE_ENV !== 'production') console.log('getting play by play events')
 			// Retrieves all plays from selected game
 			const response = await this.api.getGamePlayByPlay({
@@ -724,7 +721,7 @@ export default {
 			this.gamePlayByPlay = response.data.allPlays
 			this.getPlayerEvents()
 		},
-		async getPlayerEvents () {
+		async getPlayerEvents() {
 			if (process.env.NODE_ENV !== 'production') console.log('displaying player events')
 			if (this.boxscore) {
 				var order = []
@@ -819,10 +816,10 @@ export default {
 			}, {})
 			this.$store.commit('setPlayerEvents', this.playerEvents)
 		},
-		async sleep (ms) {
+		async sleep(ms) {
 			return new Promise((resolve) => setTimeout(resolve, ms))
 		},
-		async saveHistory () {
+		async saveHistory() {
 			if (process.env.NODE_ENV !== 'production') console.log('saving game history 1')
 			const events = this.playerEvents
 			// console.log(events)
@@ -833,17 +830,17 @@ export default {
 			gameHistory.set('gameDate', this.gameDate)
 			gameHistory.save()
 		},
-		async saveUserPoints () {
+		async saveUserPoints() {
 			// eslint-disable-next-line no-undef
-			var queryJ11 = new Parse.Query('PlayerData')
-			queryJ11.equalTo('objectId', 'UNPypEjpTA')
-			queryJ11.first().then((data) => {
-				if (data.attributes.gameDataSaved === false) {
-					data.set('allowEditPlayerSelection', false)
-					data.set('gameDataSaved', true)
-					data.save()
-				}
-			})
+			// var queryJ11 = new Parse.Query('PlayerData')
+			// queryJ11.equalTo('objectId', 'UNPypEjpTA')
+			// queryJ11.first().then((data) => {
+			// 	if (data.attributes.gameDataSaved === false) {
+			// 		data.set('allowEditPlayerSelection', false)
+			// 		data.set('gameDataSaved', true)
+			// 		data.save()
+			// 	}
+			// })
 
 			if (this.gameStatus === 'Final') {
 				if (process.env.NODE_ENV !== 'production') console.log('saving user points 1')
@@ -913,7 +910,7 @@ export default {
 				this.setUserPositions()
 			}
 		},
-		async setUserPositions () {
+		async setUserPositions() {
 			// eslint-disable-next-line no-undef
 			var query = new Parse.Query('Standings')
 			// retrieves users by total points after game points have been saved - the users new order
@@ -955,10 +952,10 @@ export default {
 				})
 			})
 		},
-		setPoints (val) {
+		setPoints(val) {
 			this.points = val
 		},
-		getEdit () {
+		getEdit() {
 			if (process.env.NODE_ENV !== 'production') console.log('get edit 1')
 			// eslint-disable-next-line no-undef
 			var queryN = new Parse.Query('PlayerData')
@@ -968,13 +965,13 @@ export default {
 				else this.setEditPlayerSelection(false)
 			})
 		},
-		setLoadGameInfo () {
+		setLoadGameInfo() {
 			this.loadGameInfo = true
 		},
-		setEditPlayerSelection (val) {
+		setEditPlayerSelection(val) {
 			this.editPlayer = val
 		},
-		async clearWeeklyPlayers () {
+		async clearWeeklyPlayers() {
 			if (process.env.NODE_ENV !== 'production') console.log('clearing weekly player selections 1')
 			// var today = moment()
 			const newDate = moment().format('YYYY-MM-DD')
