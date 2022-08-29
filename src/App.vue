@@ -163,7 +163,7 @@
 					</div>
 				</div>
 				<div class="text-center">
-					<h4 class="font-grad"><span class="text-white">Champion</span> sugarcanechop</h4>
+					<h4 class="font-grad"><span class="text-white">Champion</span> Shanbone</h4>
 				</div>
 			</div>
 			<router-view
