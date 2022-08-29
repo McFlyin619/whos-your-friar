@@ -4,6 +4,14 @@
 			<li class="list-group-item d-flex justify-content-between align-items-start bg-brown border-yellow p-2 mb-3">
 				<div class="ms-2 me-auto color-sand">
 					<div class="color-yellow">6/6/2022</div>
+					- New server for updating game info <br>
+					- Password reset <br>
+				</div>
+				<span class="badge bg-warning color-brown">v2.4</span>
+			</li>
+			<li class="list-group-item d-flex justify-content-between align-items-start bg-brown border-yellow p-2 mb-3">
+				<div class="ms-2 me-auto color-sand">
+					<div class="color-yellow">6/6/2022</div>
 					- Added Top Players, My Stats, and Next Game cards to the top of every page. <br>
 					- Added paged standings to show up to 20 people per page. <br>
 					- Added animation/transition to 'How to Play' card for smoother opening and closing.<br>

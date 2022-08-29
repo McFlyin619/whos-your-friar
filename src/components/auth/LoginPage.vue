@@ -1,7 +1,7 @@
 <template>
 	<div v-if="isAuth && apiState !== 3 ? $router.push('/game-results') : ''"></div>
 	<div v-else class="container mt-5">
-		<form v-show="loginForm" @submit.prevent="login">
+		<form v-show="loginForm && !resetForm" @submit.prevent="login">
 			<h1 v-if="newUser">Thanks for signing up... Please Login</h1>
 			<h1 v-else>LOGIN</h1>
 			<div class="form-floating mb-3 mt-3">
@@ -25,8 +25,9 @@
 				</button>
 			</div>
 			<p>Don't have an account?<a role="button" class="ms-1 link" @click="loginForm = false">Create account here</a></p>
+			<p>Forgot your password?<a role="button" class="ms-1 link" @click="resetForm = true">Reset it here</a></p>
 		</form>
-		<form v-show="!loginForm" @submit.prevent="createUser">
+		<form v-show="!loginForm && !resetForm" @submit.prevent="createUser">
 			<h1>CREATE ACCOUNT</h1>
 			<div class="form-floating mb-3 mt-3">
 				<input
@@ -92,13 +93,19 @@
 				</button>
 			</div>
 			<p>Have an account?<a class="ms-1 link" role="button" @click="loginForm = true">Login here</a></p>
+			<p>Forgot your password?<a role="button" class="ms-1 link" @click="resetForm = true">Reset it here</a></p>
 		</form>
+		<password-reset v-if="resetForm" @resetForm="resetForm = false"></password-reset>
 	</div>
 </template>
 
 <script>
+import PasswordReset from '@/components/auth/PasswordReset.vue'
 import CONFIG from '@/config/teams.json'
 export default {
+	components: {
+		PasswordReset
+	},
 	emits: ['close'],
 	data () {
 		return {
@@ -118,7 +125,8 @@ export default {
 			errMessage: null,
 			loginForm: true,
 			team: null,
-			newUser: false
+			newUser: false,
+			resetForm: false
 		}
 	},
 	watch: {

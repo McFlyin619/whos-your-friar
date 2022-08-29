@@ -4,7 +4,7 @@
 			<div class="container-fluid">
 				<a class="navbar-brand me-2" href="#"><i class="fa-solid fa-check text-warning"></i> Who's Your Friar?</a>
 				<span class="me-5">
-						v2.2
+						v2.4
 				</span>
 				<button
 					class="navbar-toggler"
