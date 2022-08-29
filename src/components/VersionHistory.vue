@@ -3,7 +3,7 @@
 		<ul class="list-group list-group">
 			<li class="list-group-item d-flex justify-content-between align-items-start bg-brown border-yellow p-2 mb-3">
 				<div class="ms-2 me-auto color-sand">
-					<div class="color-yellow">6/6/2022</div>
+					<div class="color-yellow">8/29/2022</div>
 					- New server for updating game info <br>
 					- Password reset <br>
 				</div>
