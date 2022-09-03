@@ -913,6 +913,7 @@ export default {
 		async setUserPositions () {
 			// eslint-disable-next-line no-undef
 			var query = new Parse.Query('Standings')
+			query.descending('userPoints')
 			// retrieves users by total points after game points have been saved - the users new order
 			const data = await query.find()
 			// console.log(data)
