@@ -156,7 +156,7 @@
 									<div class="col align-self-center color-sand text-end">
 										{{ tomorrowsGameInfo.teams.home.leagueRecord.wins }} -
 										{{ tomorrowsGameInfo.teams.home.leagueRecord.losses }}
-									</div>
+									</div>``
 								</div>
 							</div>
 						</div>
@@ -795,6 +795,7 @@ export default {
 					// calculates points based on results
 					for (const i in stats) {
 						if (stats[i].result.eventType === 'walk') count += 1
+						if (stats[i].result.eventType === 'hit by pitch') count += 1
 						if (stats[i].result.eventType === 'single') count += 1
 						if (stats[i].result.eventType === 'double') count += 2
 						if (stats[i].result.eventType === 'triple') count += 3
@@ -919,7 +920,7 @@ export default {
 			// console.log(data)
 			//  creates a new array sorted by points and filtered by team/game to grab the index for new user standings
 			const dataMap = data
-				.filter((i) => i.attributes.userTeam.id === this.userItems[0].attributes.userTeam.id)
+				.filter((i) => i.attributes.userTeam.id === this.userItems[0].attributes.userTeam.id && i.attributes.currentPlayers !== null)
 				.sort((a, b) => b.attributes.userPoints - a.attributes.userPoints)
 			const dataMap2 = dataMap.sort((a, b) => {
 				if (b.attributes.userPoints === a.attributes.userPoints) {
@@ -931,12 +932,12 @@ export default {
 					return a.attributes.previousPosition - b.attributes.previousPosition
 				}
 			})
-			const dataMap4 = dataMap3.sort((a, b) => {
-				if (b.attributes.currentPlayers === null) return 1
-				if (a.attributes.currentPlayers === null) return 1
-			})
+			// const dataMap4 = dataMap3.sort((a, b) => {
+			// 	if (b.attributes.currentPlayers === null) return 1
+			// 	if (a.attributes.currentPlayers === null) return 1
+			// })
 			// console.log(dataMap4)
-			dataMap4.forEach((element, index) => {
+			dataMap3.forEach((element, index) => {
 				// console.log(element.attributes.userName + ' ' + index)
 				// eslint-disable-next-line no-undef
 				var query1 = new Parse.Query('Standings')
