@@ -156,7 +156,7 @@
 									<div class="col align-self-center color-sand text-end">
 										{{ tomorrowsGameInfo.teams.home.leagueRecord.wins }} -
 										{{ tomorrowsGameInfo.teams.home.leagueRecord.losses }}
-									</div>``
+									</div>
 								</div>
 							</div>
 						</div>
