@@ -12,6 +12,13 @@ module.exports = {
 		indent: ['error', 'tab', { SwitchCase: 1 }],
 		'no-mixed-spaces-and-tabs': 0, // disable rule
 	},
+	env: {
+		browser: true,
+		node: true,
+	},
+	globals: {
+		'process.env': 'readonly'
+	},
 	overrides: [
 		{
 			files: [
