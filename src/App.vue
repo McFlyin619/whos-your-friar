@@ -10,10 +10,10 @@
 					<div class="col text-center">
 						<a
 							target="_blank"
-							href="https://shareasale.com/r.cfm?b=1668109&amp;u=3344587&amp;m=103170&amp;urllink=&amp;afftrack="
+							href="https://shareasale.com/r.cfm?b=1659554&u=3344587&m=103170&urllink=&afftrack="
 							><img
 								class="ad-img"
-								src="https://static.shareasale.com/image/103170/SlamDiegoCollage400px.png"
+								src="@/assets/lfgsd.jpg"
 								border="0"
 								alt="Aced Out Clothing"
 						/></a>
