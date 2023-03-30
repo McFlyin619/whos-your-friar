@@ -21,30 +21,32 @@
 </template>
 <script>
 // eslint-disable-next-line no-undef
-Parse.initialize('NpUNjfi37nXWf6TcBlVjEgbZkrfGlwQW7sPlAbph', '9TZO5xhE4Bg8lyrAG7maKvOPPa9DsB86HQZUGn27')
+Parse.initialize('NpUNjfi37nXWf6TcBlVjEgbZkrfGlwQW7sPlAbph', '9TZO5xhE4Bg8lyrAG7maKvOPPa9DsB86HQZUGn27');
 // eslint-disable-next-line no-undef
-Parse.serverURL = 'https://mlbotl.b4a.io/'
+Parse.serverURL = 'https://mlbotl.b4a.io/';
 export default {
 	emits: ['resetForm'],
-	data () {
+	data() {
 		return {
 			email: null,
 			isLoading: false,
-			success: false
-		}
+			success: false,
+		};
 	},
 	methods: {
-		resetEmail () {
-			this.isLoading = true
+		resetEmail() {
+			this.isLoading = true;
 			// eslint-disable-next-line no-undef
-			Parse.User.requestPasswordReset(this.email).then(() => {
-				this.success = true
-				this.isLoading = false
-				console.log('Password reset request was sent successfully')
-			}).catch((error) => {
-				console.log('The login failed with error: ' + error.code + ' ' + error.message)
-			})
-		}
-	}
-}
+			Parse.User.requestPasswordReset(this.email)
+				.then(() => {
+					this.success = true;
+					this.isLoading = false;
+					console.log('Password reset request was sent successfully');
+				})
+				.catch((error) => {
+					console.log('The login failed with error: ' + error.code + ' ' + error.message);
+				});
+		},
+	},
+};
 </script>

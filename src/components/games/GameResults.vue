@@ -5,27 +5,21 @@
 		</div>
 		<div v-if="(gameStatus === 'Scheduled' || this.gameStatus === 'Preview' || gameStatus === 'Warmup' || gameStatus === 'Pre-Game') && userItems && boxscore && teamsPlaying">
 			<h2 class="text-center">Scheduled first pitch at {{ gameTime }}</h2>
-			<h4 class="text-center color-sand">
-				From {{ boxscore.data.teams.home.team.venue.name }} in {{ boxscore.data.teams.home.team.locationName }}
-			</h4>
+			<h4 class="text-center color-sand">From {{ boxscore.data.teams.home.team.venue.name }} in {{ boxscore.data.teams.home.team.locationName }}</h4>
 			<div class="row mt-5 text-center">
 				<div class="col-md d-flex justify-content-center">
 					<h1>{{ boxscore.data.teams.home.team.abbreviation }}</h1>
-					<h5 class="record align-self-center text-white ms-2">
-						({{ teamsPlaying.home.leagueRecord.wins }} - {{ teamsPlaying.home.leagueRecord.losses }})
-					</h5>
+					<h5 class="record align-self-center text-white ms-2">({{ teamsPlaying.home.leagueRecord.wins }} - {{ teamsPlaying.home.leagueRecord.losses }})</h5>
 				</div>
 				<h2 class="col-md text-white">VS</h2>
 				<div class="col-md d-flex justify-content-center">
 					<h1>{{ boxscore.data.teams.away.team.abbreviation }}</h1>
-					<h5 class="record align-self-center text-white ms-2">
-						({{ teamsPlaying.away.leagueRecord.wins }} - {{ teamsPlaying.away.leagueRecord.losses }})
-					</h5>
+					<h5 class="record align-self-center text-white ms-2">({{ teamsPlaying.away.leagueRecord.wins }} - {{ teamsPlaying.away.leagueRecord.losses }})</h5>
 				</div>
 			</div>
 			<div class="d-flex justify-content-center">
 				<ul v-if="battingOrder !== null && teamRoster" class="list-group-flush">
-					<li class="list-group-item bg-brown color-yellow" v-for="(id) in battingOrder" :key="id">
+					<li class="list-group-item bg-brown color-yellow" v-for="id in battingOrder" :key="id">
 						<div>
 							<span class="color-sand"> {{ id.battingOrder[0] }}. </span>
 							{{ id.person.fullName }}
@@ -37,10 +31,7 @@
 							</span>
 						</div>
 						<div>
-							<span class="ms-3 color-sand"
-								>{{ id.seasonStats.batting.avg }} / {{ id.seasonStats.batting.obp }} /
-								{{ id.seasonStats.batting.slg }}</span
-							>
+							<span class="ms-3 color-sand">{{ id.seasonStats.batting.avg }} / {{ id.seasonStats.batting.obp }} / {{ id.seasonStats.batting.slg }}</span>
 						</div>
 					</li>
 				</ul>
@@ -187,7 +178,16 @@
 			</div>
 		</div> -->
 		<div v-if="userItems && boxscore && teamsPlaying && playerEvents && gamePlayByPlay && (gameStatus === 'Live' || gameStatus === 'Final')">
-			<game-plays :boxscore="boxscore" :battingOrder="battingOrder" :playerEvents="playerEvents" :gamePlayByPlay="gamePlayByPlay" :teamsPlaying="teamsPlaying" :userSelectedPlayersTotalPoints="userSelectedPlayersTotalPoints" :userItems="userItems" :gameStatus="gameStatus" :editPlayer="editPlayer"></game-plays>
+			<game-plays
+				:boxscore="boxscore"
+				:battingOrder="battingOrder"
+				:playerEvents="playerEvents"
+				:gamePlayByPlay="gamePlayByPlay"
+				:teamsPlaying="teamsPlaying"
+				:userSelectedPlayersTotalPoints="userSelectedPlayersTotalPoints"
+				:userItems="userItems"
+				:gameStatus="gameStatus"
+				:editPlayer="editPlayer"></game-plays>
 		</div>
 	</div>
 </template>
@@ -195,7 +195,7 @@
 <script>
 // import moment from 'moment'
 // import MLBStatsAPI from 'mlb-stats-api'
-import GamePlays from './GamePlays.vue'
+import GamePlays from './GamePlays.vue';
 // import ENUM from '@/config/loading.js'
 
 export default {
@@ -203,52 +203,49 @@ export default {
 	props: ['isAuth', 'currentUser', 'boxscore', 'battingOrder', 'playerEvents', 'teamsPlaying', 'gamePlayByPlay', 'teamRoster', 'gameTime', 'editPlayer'],
 	emits: ['clearUserPlayers', 'saveUserPoints', 'events', 'editPlayerSelection', 'points', 'getInfo'],
 	components: {
-		GamePlays
+		GamePlays,
 	},
-	data () {
-		return {}
+	data() {
+		return {};
 	},
 	watch: {
-		apiState (val) {
-			if (val === 2) this.$emit('getInfo')
-		}
+		apiState(val) {
+			if (val === 2) this.$emit('getInfo');
+		},
 	},
-	created () {
-		this.$store.dispatch('getStandings')
-		this.$emit('getInfo')
+	created() {
+		this.$store.dispatch('getStandings');
+		this.$emit('getInfo');
 	},
 	computed: {
-		apiState () {
-			return this.$store.state.apiState
+		apiState() {
+			return this.$store.state.apiState;
 		},
-		userItems () {
+		userItems() {
 			if (this.currentUser && this.$store.state.standings) {
-				return this.$store.state.standings.filter((i) => i.attributes.userName === this.currentUser.username)
+				return this.$store.state.standings.filter((i) => i.attributes.userName === this.currentUser.username);
 			} else {
-				return null
+				return null;
 			}
 		},
-		userSelectedPlayersTotalPoints () {
+		userSelectedPlayersTotalPoints() {
 			if (this.currentUser && this.playerEvents && this.$store.state.standings && this.userItems[0].attributes.currentPlayers) {
 				const players = Object.values(this.playerEvents)
-					.filter((i) =>
-						this.userItems[0].attributes.currentPlayers.some((j) => i.name === j.person.fullName.split('.').join(''))
-					)
-					.map((i) => i.points)
-				const points = players.reduce((a, b) => a + b, 0)
-				this.$emit('points', points)
-				return points
+					.filter((i) => this.userItems[0].attributes.currentPlayers.some((j) => i.name === j.person.fullName.split('.').join('')))
+					.map((i) => i.points);
+				const points = players.reduce((a, b) => a + b, 0);
+				this.$emit('points', points);
+				return points;
 			} else {
-				return null
+				return null;
 			}
 		},
-		gameStatus () {
-			return this.$store.state.gameStatus
-		}
+		gameStatus() {
+			return this.$store.state.gameStatus;
+		},
 	},
-	methods: {
-	}
-}
+	methods: {},
+};
 </script>
 
 <style scoped>

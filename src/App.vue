@@ -8,75 +8,174 @@
 				<!-- <button v-if="userItems[0].attributes.userName === 'McFlyin'" @click="saveUserPoints">save history</button> -->
 				<div class="row row-cols-1 row-cols-md-5 g-2 mb-4 mt-2">
 					<div class="col text-center">
-						<a target="_blank" href="https://shareasale.com/r.cfm?b=1668109&amp;u=3344587&amp;m=103170&amp;urllink=&amp;afftrack="
-							><img class="ad-img" src="https://static.shareasale.com/image/103170/SlamDiegoCollage400px.png" border="0" alt="Aced Out Clothing"
+						<a
+							target="_blank"
+							href="https://shareasale.com/r.cfm?b=1668109&amp;u=3344587&amp;m=103170&amp;urllink=&amp;afftrack="
+							><img
+								class="ad-img"
+								src="https://static.shareasale.com/image/103170/SlamDiegoCollage400px.png"
+								border="0"
+								alt="Aced Out Clothing"
 						/></a>
 					</div>
 					<div class="col border-yellow user-standing">
-						<div v-if="isLoading" class="d-flex justify-content-center">
+						<div
+							v-if="isLoading"
+							class="d-flex justify-content-center"
+						>
 							<div class="spinner-border" role="status">
 								<span class="visually-hidden">Loading...</span>
 							</div>
 						</div>
 						<div v-else class="score">
-							<div class="row justify-content-center">Top Players</div>
-							<div class="row justify-content-md-center text-white d-block" v-for="(p, index) in topPlayers" :key="p">
-								<span class="color-sand">{{ index + 1 }}.</span> {{ p }}
+							<div class="row justify-content-center">
+								Top Players
+							</div>
+							<div
+								class="row justify-content-md-center text-white d-block"
+								v-for="(p, index) in topPlayers"
+								:key="p"
+							>
+								<span class="color-sand">{{ index + 1 }}.</span>
+								{{ p }}
 							</div>
 						</div>
 					</div>
 					<div class="col border-yellow user-standing">
-						<div v-if="isLoading" class="d-flex justify-content-center">
+						<div
+							v-if="isLoading"
+							class="d-flex justify-content-center"
+						>
 							<div class="spinner-border" role="status">
 								<span class="visually-hidden">Loading...</span>
 							</div>
 						</div>
 						<div v-else-if="userItems" class="score">
-							<div class="row justify-content-center">My Stats</div>
-							<div class="row justify-content-between">
-								<div class="col-auto color-sand">Position</div>
-								<div class="col-auto text-white">#{{ gameStatus === 'Live' ? currentUserPosition : userItems[0].attributes.currentPosition }} / {{ standings.length }}</div>
+							<div class="row justify-content-center">
+								My Stats
 							</div>
 							<div class="row justify-content-between">
-								<div class="col-auto color-sand">Total Points</div>
-								<div class="col-auto text-success">
-									{{ userItems && gameStatus === 'Live' ? userItems[0].attributes.userPoints + userSelectedPlayersTotalPoints : userItems[0].attributes.userPoints }}
+								<div class="col-auto color-sand">Position</div>
+								<div class="col-auto text-white">
+									#{{
+										gameStatus === 'Live'
+											? currentUserPosition
+											: userItems[0].attributes
+													.currentPosition
+									}}
+									/ {{ standings.length }}
 								</div>
 							</div>
 							<div class="row justify-content-between">
-								<div class="col-auto color-sand">Game Points</div>
+								<div class="col-auto color-sand">
+									Total Points
+								</div>
 								<div class="col-auto text-success">
-									{{ gameStatus === 'Live' || gameStatus === 'Final' ? userSelectedPlayersTotalPoints : 0 }}
+									{{
+										userItems && gameStatus === 'Live'
+											? userItems[0].attributes
+													.userPoints +
+											  userSelectedPlayersTotalPoints
+											: userItems[0].attributes.userPoints
+									}}
+								</div>
+							</div>
+							<div class="row justify-content-between">
+								<div class="col-auto color-sand">
+									Game Points
+								</div>
+								<div class="col-auto text-success">
+									{{
+										gameStatus === 'Live' ||
+										gameStatus === 'Final'
+											? userSelectedPlayersTotalPoints
+											: 0
+									}}
 								</div>
 							</div>
 						</div>
 					</div>
 					<div class="col border-yellow user-standing">
-						<div v-if="isLoading" class="d-flex justify-content-center">
+						<div
+							v-if="isLoading"
+							class="d-flex justify-content-center"
+						>
 							<div class="spinner-border" role="status">
 								<span class="visually-hidden">Loading...</span>
 							</div>
 						</div>
-						<div v-else-if="!gameHistory || editPlayer" class="score">
-							<div class="row justify-content-center">No History Available</div>
+						<div
+							v-else-if="!gameHistory || editPlayer"
+							class="score"
+						>
+							<div class="row justify-content-center">
+								No History Available
+							</div>
 						</div>
 						<div v-else-if="!editPlayer" class="score">
 							<div class="row justify-content-center d-block">
-								<span class="text-white-50 me-0">{{ historyDate }}</span> Game Stats
+								<span class="text-white-50 me-0">{{
+									historyDate
+								}}</span>
+								Game Stats
 							</div>
-							<div v-for="p in userHistory" :key="p" class="row justify-content-between">
-								<div role="button" @click="showPlays === null ? (showPlays = p.name) : (showPlays = null)" class="col-auto color-sand">
-									<i v-if="showPlays === p.name" class="fas fa-caret-down me-2 text-white"></i>
-									<i v-else class="fas fa-caret-right me-2"></i>
+							<div
+								v-for="p in userHistory"
+								:key="p"
+								class="row justify-content-between"
+							>
+								<div
+									role="button"
+									@click="
+										showPlays === null
+											? (showPlays = p.name)
+											: (showPlays = null)
+									"
+									class="col-auto color-sand"
+								>
+									<i
+										v-if="showPlays === p.name"
+										class="fas fa-caret-down me-2 text-white"
+									></i>
+									<i
+										v-else
+										class="fas fa-caret-right me-2"
+									></i>
 									{{ p.name }}
 								</div>
-								<div class="col-auto" :class="{ 'text-success': p.points > 0, 'text-white': p.points === 0 }">+{{ p.points }}</div>
+								<div
+									class="col-auto"
+									:class="{
+										'text-success': p.points > 0,
+										'text-white': p.points === 0,
+									}"
+								>
+									+{{ p.points }}
+								</div>
 								<div v-show="showPlays === p.name">
-									<div class="text-white ms-5" v-for="play in p.plays.s" :key="play">
+									<div
+										class="text-white ms-5"
+										v-for="play in p.plays.s"
+										:key="play"
+									>
 										<p class="mb-0">
-											<small class="color-sand">{{ play.about.halfInning.toUpperCase() }} {{ play.about.inning }}</small>
-											&#183; <small>{{ play.result.event }}</small>
-											<small v-if="play.result.rbi > 0"> - {{ play.result.rbi }} RBI{{ play.result.rbi > 1 ? "'s" : '' }}</small>
+											<small class="color-sand"
+												>{{
+													play.about.halfInning.toUpperCase()
+												}}
+												{{ play.about.inning }}</small
+											>
+											&#183;
+											<small>{{
+												play.result.event
+											}}</small>
+											<small v-if="play.result.rbi > 0">
+												- {{ play.result.rbi }} RBI{{
+													play.result.rbi > 1
+														? "'s"
+														: ''
+												}}</small
+											>
 										</p>
 									</div>
 								</div>
@@ -92,31 +191,74 @@
 						</div>
 					</div>
 					<div class="col border-yellow user-standing">
-						<div v-if="isLoading" class="d-flex justify-content-center">
+						<div
+							v-if="isLoading"
+							class="d-flex justify-content-center"
+						>
 							<div class="spinner-border" role="status">
 								<span class="visually-hidden">Loading...</span>
 							</div>
 						</div>
-						<div v-else-if="tomorrowsBoxscore !== null && tomorrowsGameInfo !== null">
-							<div class="score" v-if="tomorrowsGameInfo === 'No Game'">No Game Tomorrow</div>
+						<div
+							v-else-if="
+								tomorrowsBoxscore !== null &&
+								tomorrowsGameInfo !== null
+							"
+						>
+							<div
+								class="score"
+								v-if="tomorrowsGameInfo === 'No Game'"
+							>
+								No Game Tomorrow
+							</div>
 							<div v-else class="score">
-								<div class="row justify-content-center time me-1">Tomorrow {{ tomorrowsGameTime }}</div>
-								<div class="row mt-3 d-flex justify-content-between">
+								<div
+									class="row justify-content-center time me-1"
+								>
+									Tomorrow {{ tomorrowsGameTime }}
+								</div>
+								<div
+									class="row mt-3 d-flex justify-content-between"
+								>
 									<div class="col text-white team">
-										{{ tomorrowsBoxscore.data.teams.away.team.abbreviation }}
+										{{
+											tomorrowsBoxscore.data.teams.away
+												.team.abbreviation
+										}}
 									</div>
-									<div class="col align-self-center text-end color-sand">
-										{{ tomorrowsGameInfo.teams.away.leagueRecord.wins }} -
-										{{ tomorrowsGameInfo.teams.away.leagueRecord.losses }}
+									<div
+										class="col align-self-center text-end color-sand"
+									>
+										{{
+											tomorrowsGameInfo.teams.away
+												.leagueRecord.wins
+										}}
+										-
+										{{
+											tomorrowsGameInfo.teams.away
+												.leagueRecord.losses
+										}}
 									</div>
 								</div>
 								<div class="row d-flex justify-content-between">
 									<div class="col text-white team">
-										{{ tomorrowsBoxscore.data.teams.home.team.abbreviation }}
+										{{
+											tomorrowsBoxscore.data.teams.home
+												.team.abbreviation
+										}}
 									</div>
-									<div class="col align-self-center color-sand text-end">
-										{{ tomorrowsGameInfo.teams.home.leagueRecord.wins }} -
-										{{ tomorrowsGameInfo.teams.home.leagueRecord.losses }}
+									<div
+										class="col align-self-center color-sand text-end"
+									>
+										{{
+											tomorrowsGameInfo.teams.home
+												.leagueRecord.wins
+										}}
+										-
+										{{
+											tomorrowsGameInfo.teams.home
+												.leagueRecord.losses
+										}}
 									</div>
 								</div>
 							</div>
@@ -124,7 +266,9 @@
 					</div>
 				</div>
 				<div class="text-center">
-					<h4 class="font-grad"><span class="text-white">Champion</span> KnickKnack</h4>
+					<h4 class="font-grad">
+						<span class="text-white">Champion</span> KnickKnack
+					</h4>
 				</div>
 			</div>
 			<router-view
@@ -149,7 +293,8 @@
 				:userItems="userItems"
 				:gameStatus="gameStatus"
 				:gameTime="gameTime"
-				:teamRoster="teamRoster"></router-view>
+				:teamRoster="teamRoster"
+			></router-view>
 		</div>
 		<footer-bar class="mt-5"></footer-bar>
 	</div>
@@ -165,7 +310,10 @@ import axios from 'axios';
 
 // Initialize Parse
 // eslint-disable-next-line no-undef
-Parse.initialize('NpUNjfi37nXWf6TcBlVjEgbZkrfGlwQW7sPlAbph', '9TZO5xhE4Bg8lyrAG7maKvOPPa9DsB86HQZUGn27');
+Parse.initialize(
+	'NpUNjfi37nXWf6TcBlVjEgbZkrfGlwQW7sPlAbph',
+	'9TZO5xhE4Bg8lyrAG7maKvOPPa9DsB86HQZUGn27'
+);
 // eslint-disable-next-line no-undef
 Parse.serverURL = 'https://mlbotl.b4a.io/';
 export default {
@@ -261,20 +409,34 @@ export default {
 			return this.$store.state.standings;
 		},
 		champion() {
-			return this.$store.state.standings.filter((i) => i.attributes.winner === 'yes');
+			return this.$store.state.standings.filter(
+				(i) => i.attributes.winner === 'yes'
+			);
 		},
 		userItems() {
 			if (this.currentUser && this.$store.state.standings) {
-				return this.$store.state.standings.filter((i) => i.attributes.userName === this.currentUser.username);
+				return this.$store.state.standings.filter(
+					(i) => i.attributes.userName === this.currentUser.username
+				);
 			} else {
 				return null;
 			}
 		},
 		userSelectedPlayersTotalPoints() {
-			if (this.currentUser && this.playerEvents && this.$store.state.standings) {
+			if (
+				this.currentUser &&
+				this.playerEvents &&
+				this.$store.state.standings
+			) {
 				if (this.userItems[0].attributes.currentPlayers) {
 					const players = Object.values(this.playerEvents)
-						.filter((i) => this.userItems[0].attributes.currentPlayers.some((j) => i.name.split('.').join('') === j.person.fullName.split('.').join('')))
+						.filter((i) =>
+							this.userItems[0].attributes.currentPlayers.some(
+								(j) =>
+									i.name.split('.').join('') ===
+									j.person.fullName.split('.').join('')
+							)
+						)
 						.map((i) => i.points);
 					const points = players.reduce((a, b) => a + b, 0);
 					this.$emit('points', points);
@@ -292,10 +454,21 @@ export default {
 		topPlayers() {
 			if (this.$store.state.standings && this.gameStatus !== 'Live') {
 				return this.standings
-					.filter((i) => i.attributes.currentPosition <= 3 && i.attributes.currentPosition !== 0)
-					.sort((a, b) => a.attributes.currentPosition - b.attributes.currentPosition)
+					.filter(
+						(i) =>
+							i.attributes.currentPosition <= 3 &&
+							i.attributes.currentPosition !== 0
+					)
+					.sort(
+						(a, b) =>
+							a.attributes.currentPosition -
+							b.attributes.currentPosition
+					)
 					.map((i) => i.attributes.userName);
-			} else if (this.$store.state.standings && this.gameStatus === 'Live') {
+			} else if (
+				this.$store.state.standings &&
+				this.gameStatus === 'Live'
+			) {
 				this.currentStandings();
 				if (this.currentUserStandings !== null) {
 					return this.currentUserStandings
@@ -309,11 +482,19 @@ export default {
 		},
 		userHistory() {
 			if (this.userItems[0]) {
-				if (this.userItems[0].attributes.currentPlayers !== null && this.gameHistory !== null) {
+				if (
+					this.userItems[0].attributes.currentPlayers !== null &&
+					this.gameHistory !== null
+				) {
 					// var game = this.gameHistory
 					// if (this.gameStatus === 'final') game = this.playerEvents
-					const players = Object.values(this.gameHistory).filter((playerEvents) =>
-						this.userItems[0].attributes.currentPlayers.some((player) => playerEvents.name.split('.').join('') === player.person.fullName.split('.').join(''))
+					const players = Object.values(this.gameHistory).filter(
+						(playerEvents) =>
+							this.userItems[0].attributes.currentPlayers.some(
+								(player) =>
+									playerEvents.name.split('.').join('') ===
+									player.person.fullName.split('.').join('')
+							)
 					);
 					return players;
 				} else {
@@ -326,7 +507,9 @@ export default {
 	},
 	methods: {
 		async loadGameData() {
-			const result = await axios.get(`${process.env.VUE_APP_APIURL}game-info`);
+			const result = await axios.get(
+				`${process.env.VUE_APP_APIURL}game-info`
+			);
 			console.log(result.data.schedule);
 			console.log(result.data.gameId);
 			console.log(result.data.gameStatus);
@@ -336,17 +519,26 @@ export default {
 			this.gameStatus = result.data.gameStatus;
 			this.$store.commit('setGameStatus', result.data.gameStatus);
 			this.getInfo();
-			if (result.data.gameStatus === 'Preview') setTimeout(this.loadGameData, 1800000);
-			if (result.data.gameStatus === 'Scheduled') setTimeout(this.loadGameData, 1800000);
-			if (result.data.gameStatus === 'Warmup') setTimeout(this.loadGameData, 120000);
-			if (result.data.gameStatus === 'Pre-Game') setTimeout(this.loadGameData, 120000);
-			if (result.data.gameStatus === 'Live') setTimeout(this.loadGameData, 30000);
-			if (result.data.gameStatus === 'Final') setTimeout(this.loadGameData, 3600000);
-			if (result.data.gameStatus === undefined) setTimeout(this.loadGameData, 3600000);
+			if (result.data.gameStatus === 'Preview')
+				setTimeout(this.loadGameData, 1800000);
+			if (result.data.gameStatus === 'Scheduled')
+				setTimeout(this.loadGameData, 1800000);
+			if (result.data.gameStatus === 'Warmup')
+				setTimeout(this.loadGameData, 120000);
+			if (result.data.gameStatus === 'Pre-Game')
+				setTimeout(this.loadGameData, 120000);
+			if (result.data.gameStatus === 'Live')
+				setTimeout(this.loadGameData, 30000);
+			if (result.data.gameStatus === 'Final')
+				setTimeout(this.loadGameData, 3600000);
+			if (result.data.gameStatus === undefined)
+				setTimeout(this.loadGameData, 3600000);
 			console.log('No game');
 		},
 		async getHistory() {
-			const yesterdaysGameDate = moment().subtract(1, 'days').format('MM-DD-YYYY');
+			const yesterdaysGameDate = moment()
+				.subtract(1, 'days')
+				.format('MM-DD-YYYY');
 			// var currentGameDate = yesterdaysGameDate
 			// if (this.gameStatus === 'final') currentGameDate = this.gameDate
 			// console.log(yesterdaysGameDate + 1)
@@ -365,19 +557,36 @@ export default {
 			const usersPoints = [];
 			if (this.standings.length > 0 && this.playerEvents) {
 				for (const user in this.standings) {
-					if (this.standings[user].attributes.currentPlayers !== null) {
-						const players = Object.values(this.playerEvents).filter((playerEvents) =>
-							this.standings[user].attributes.currentPlayers.some((player) => playerEvents.name.split('.').join('') === player.person.fullName.split('.').join(''))
+					if (
+						this.standings[user].attributes.currentPlayers !== null
+					) {
+						const players = Object.values(this.playerEvents).filter(
+							(playerEvents) =>
+								this.standings[
+									user
+								].attributes.currentPlayers.some(
+									(player) =>
+										playerEvents.name
+											.split('.')
+											.join('') ===
+										player.person.fullName
+											.split('.')
+											.join('')
+								)
 						);
 
 						// calculates total points from players
-						const gamePoints = players.map((i, e) => i.points).reduce((a, b) => a + b, 0);
+						const gamePoints = players
+							.map((i) => i.points)
+							.reduce((a, b) => a + b, 0);
 
 						const points = {
 							user: this.standings[user],
 							players: players,
 							gamePoints: gamePoints,
-							total: this.standings[user].attributes.userPoints + gamePoints,
+							total:
+								this.standings[user].attributes.userPoints +
+								gamePoints,
 						};
 						usersPoints.push(points);
 					} else {
@@ -385,7 +594,8 @@ export default {
 							user: this.standings[user],
 							players: null,
 							gamePoints: 0,
-							total: this.standings[user].attributes.userPoints + 0,
+							total:
+								this.standings[user].attributes.userPoints + 0,
 						};
 						usersPoints.push(points);
 					}
@@ -403,7 +613,10 @@ export default {
 					});
 				let pos;
 				standings.forEach((ele, index) => {
-					if (ele.user.attributes.userName === this.currentUser.username) {
+					if (
+						ele.user.attributes.userName ===
+						this.currentUser.username
+					) {
 						pos = index + 1;
 					}
 				});
@@ -412,7 +625,10 @@ export default {
 			}
 		},
 		async tomorrowsGame() {
-			if (this.userItems && this.userItems[0].attributes.userTeam !== undefined) {
+			if (
+				this.userItems &&
+				this.userItems[0].attributes.userTeam !== undefined
+			) {
 				const response = await this.api.getSchedule({
 					params: {
 						sportId: 1,
@@ -422,10 +638,14 @@ export default {
 				});
 				if (response.data.dates[0] !== undefined) {
 					const boxResponse = await this.api.getGameBoxscore({
-						pathParams: { gamePk: response.data.dates[0].games[0].gamePk },
+						pathParams: {
+							gamePk: response.data.dates[0].games[0].gamePk,
+						},
 					});
 					this.tomorrowsBoxscore = boxResponse;
-					this.tomorrowsGameTime = moment(response.data.dates[0].games[0].gameDate).format('h:mm a');
+					this.tomorrowsGameTime = moment(
+						response.data.dates[0].games[0].gameDate
+					).format('h:mm a');
 					this.tomorrowsGameInfo = response.data.dates[0].games[0];
 				} else {
 					this.tomorrowsGameInfo = 'No Game';
@@ -434,7 +654,9 @@ export default {
 			}
 		},
 		async getInfo() {
-			const result = await axios.get(`${process.env.VUE_APP_APIURL}game-info`);
+			const result = await axios.get(
+				`${process.env.VUE_APP_APIURL}game-info`
+			);
 			this.schedule = result.data.schedule;
 			this.gameId = result.data.gameId;
 			this.gameStatus = result.data.gameStatus;
@@ -442,7 +664,10 @@ export default {
 			await this.sleep(800);
 			this.tomorrowsGame();
 			if (process.env.NODE_ENV !== 'production') console.log('getInfo');
-			if (this.userItems && this.userItems[0].attributes.userTeam !== undefined) {
+			if (
+				this.userItems &&
+				this.userItems[0].attributes.userTeam !== undefined
+			) {
 				// const response = await this.api.getSchedule({
 				// 	params: {
 				// 		sportId: 1,
@@ -458,29 +683,45 @@ export default {
 
 						this.teamsPlaying = this.schedule.games[1].teams;
 
-						this.gameTime = moment(this.schedule.games[1].gameDate).format('h:mm a');
-						this.gameDate = moment(this.schedule.games[1].gameDate).format('MM DD YYYY');
+						this.gameTime = moment(
+							this.schedule.games[1].gameDate
+						).format('h:mm a');
+						this.gameDate = moment(
+							this.schedule.games[1].gameDate
+						).format('MM DD YYYY');
 
 						this.getRoster();
 						this.getBoxScore();
 
 						// loads all necessary items for pre game
-						if (this.gameStatus === 'Scheduled' || this.gameStatus === 'Preview') {
-							if (process.env.NODE_ENV !== 'production') console.log('Pre-Game dd');
+						if (
+							this.gameStatus === 'Scheduled' ||
+							this.gameStatus === 'Preview'
+						) {
+							if (process.env.NODE_ENV !== 'production')
+								console.log('Pre-Game dd');
 							// this.$store.commit('setGameStatus', 'pregame')
 							// eslint-disable-next-line no-undef
 							var queryG = new Parse.Query('PlayerData');
 							queryG.equalTo('objectId', 'UNPypEjpTA');
 							queryG.first().then((data) => {
 								// console.log(moment(data.attributes.monthStartDate).diff(moment(), 'days'))
-								if (data.attributes.allowEditPlayerSelection === true) this.editPlayerSelection = true;
+								if (
+									data.attributes.allowEditPlayerSelection ===
+									true
+								)
+									this.editPlayerSelection = true;
 								data.set('gameDataSaved', false);
 								data.save();
 							});
 							// eslint-disable-next-line no-undef
 							var queryH1 = new Parse.Query('Standings');
 							const users = await queryH1.find();
-							const usersFiltered = users.filter((i) => i.attributes.userTeam.id === this.userItems[0].attributes.userTeam.id);
+							const usersFiltered = users.filter(
+								(i) =>
+									i.attributes.userTeam.id ===
+									this.userItems[0].attributes.userTeam.id
+							);
 							for (const i in usersFiltered) {
 								// eslint-disable-next-line no-undef
 								var queryV = new Parse.Query('Standings');
@@ -501,10 +742,12 @@ export default {
 							});
 						}
 						if (this.gameStatus === 'Warmup') {
-							if (process.env.NODE_ENV !== 'production') console.log('Warm Up dd');
+							if (process.env.NODE_ENV !== 'production')
+								console.log('Warm Up dd');
 						}
 						if (this.gameStatus === 'Live') {
-							if (process.env.NODE_ENV !== 'production') console.log('Game Currently Live dd');
+							if (process.env.NODE_ENV !== 'production')
+								console.log('Game Currently Live dd');
 							this.editPlayerSelection = false;
 							// this.$store.commit('setGameStatus', 'live')
 							// this.live = true
@@ -512,7 +755,8 @@ export default {
 
 						if (this.gameStatus === 'Final') {
 							this.editPlayerSelection = false;
-							if (process.env.NODE_ENV !== 'production') console.log('GameOver 1');
+							if (process.env.NODE_ENV !== 'production')
+								console.log('GameOver 1');
 							// this.$store.commit('setGameStatus', 'final')
 							// eslint-disable-next-line no-undef
 							var queryJ1 = new Parse.Query('PlayerData');
@@ -523,7 +767,8 @@ export default {
 									setTimeout(() => {
 										this.saveUserPoints();
 									}, 1000);
-									this.currentWeekDate = data.attributes.weekStartDate;
+									this.currentWeekDate =
+										data.attributes.weekStartDate;
 									// data.set('gameDataSaved', true)
 									data.save();
 								}
@@ -546,38 +791,59 @@ export default {
 						// this is the for an day with 1 game - will be used the most
 						// this.gameId = response.games[0].gamePk
 						this.teamsPlaying = this.schedule.games[0].teams;
-						this.gameTime = moment(this.schedule.games[0].gameDate).format('h:mm a');
-						this.gameDate = moment(this.schedule.games[0].gameDate).format('MM-DD-YYYY');
+						this.gameTime = moment(
+							this.schedule.games[0].gameDate
+						).format('h:mm a');
+						this.gameDate = moment(
+							this.schedule.games[0].gameDate
+						).format('MM-DD-YYYY');
 						this.getRoster();
 						this.getBoxScore();
 						// console.log(response.data.dates[0].games[0].status)
-						if (this.gameStatus === 'Scheduled' || this.gameStatus === 'Preview') {
-							if (process.env.NODE_ENV !== 'production') console.log('Pre-Game 1');
+						if (
+							this.gameStatus === 'Scheduled' ||
+							this.gameStatus === 'Preview'
+						) {
+							if (process.env.NODE_ENV !== 'production')
+								console.log('Pre-Game 1');
 							// this.$store.commit('setGameStatus', 'pregame')
 							// eslint-disable-next-line no-undef
 							var queryG1 = new Parse.Query('PlayerData');
 							queryG1.equalTo('objectId', 'UNPypEjpTA');
 							queryG1.first().then((data) => {
 								// console.log(moment(data.attributes.monthStartDate).diff(moment(), 'days'))
-								if (data.attributes.allowEditPlayerSelection === true) this.editPlayerSelection = true;
+								if (
+									data.attributes.allowEditPlayerSelection ===
+									true
+								)
+									this.editPlayerSelection = true;
 								data.save();
 							});
 						}
 						if (this.gameStatus === 'Warmup') {
-							if (process.env.NODE_ENV !== 'production') console.log('Warm Up 1');
+							if (process.env.NODE_ENV !== 'production')
+								console.log('Warm Up 1');
 						}
 						if (this.gameStatus === 'Live') {
-							if (process.env.NODE_ENV !== 'production') console.log('Game Currently Live 1');
+							if (process.env.NODE_ENV !== 'production')
+								console.log('Game Currently Live 1');
 							this.editPlayerSelection = false;
 							// this.$store.commit('setGameStatus', 'live')
 							// eslint-disable-next-line no-undef
 							var queryH = new Parse.Query('Standings');
 							const users = await queryH.find();
-							const usersFiltered = users.filter((i) => i.attributes.userTeam.id === this.userItems[0].attributes.userTeam.id);
+							const usersFiltered = users.filter(
+								(i) =>
+									i.attributes.userTeam.id ===
+									this.userItems[0].attributes.userTeam.id
+							);
 							for (const i in usersFiltered) {
 								// eslint-disable-next-line no-undef
 								var queryV1 = new Parse.Query('Standings');
-								queryV1.equalTo('objectId', usersFiltered[i].id);
+								queryV1.equalTo(
+									'objectId',
+									usersFiltered[i].id
+								);
 								queryV1.first().then((user) => {
 									if (user) {
 										user.set('gamePointsSaved', false);
@@ -600,7 +866,8 @@ export default {
 						}
 						if (this.gameStatus === 'Final') {
 							this.editPlayerSelection = false;
-							if (process.env.NODE_ENV !== 'production') console.log('GameOver 1');
+							if (process.env.NODE_ENV !== 'production')
+								console.log('GameOver 1');
 							// this.$store.commit('setGameStatus', 'final')
 							// this.final = true
 							// eslint-disable-next-line no-undef
@@ -622,7 +889,8 @@ export default {
 										this.saveUserPoints();
 									}, 500);
 									data.set('gameDataSaved', true);
-									this.currentWeekDate = data.attributes.weekStartDate;
+									this.currentWeekDate =
+										data.attributes.weekStartDate;
 									// data.set('gameDataSaved', true)
 									data.save();
 								}
@@ -637,29 +905,37 @@ export default {
 					var queryN = new Parse.Query('PlayerData');
 					queryN.equalTo('objectId', 'UNPypEjpTA');
 					queryN.first().then((data) => {
-						if (data.attributes.allowEditPlayerSelection === true) this.editPlayerSelection = true;
+						if (data.attributes.allowEditPlayerSelection === true)
+							this.editPlayerSelection = true;
 					});
 				}
 			}
 			this.getHistory();
 		},
 		async getRoster() {
-			if (process.env.NODE_ENV !== 'production') console.log('retrieving roster');
+			if (process.env.NODE_ENV !== 'production')
+				console.log('retrieving roster');
 			// Retrieves the team roster
 			const response = await this.api.getTeamRoster({
-				pathParams: { teamId: this.userItems[0].attributes.userTeam.id },
+				pathParams: {
+					teamId: this.userItems[0].attributes.userTeam.id,
+				},
 			});
 			this.teamRoster = response.data.roster;
 			this.$store.commit('setApiState', ENUM.LOADED);
 		},
 		async getBoxScore() {
-			if (process.env.NODE_ENV !== 'production') console.log('getting boxscore');
-			const response = await this.api.getGameBoxscore({ pathParams: { gamePk: this.gameId } });
+			if (process.env.NODE_ENV !== 'production')
+				console.log('getting boxscore');
+			const response = await this.api.getGameBoxscore({
+				pathParams: { gamePk: this.gameId },
+			});
 			this.boxscore = response;
 			this.getGamePlayByPlay();
 		},
 		async getGamePlayByPlay() {
-			if (process.env.NODE_ENV !== 'production') console.log('getting play by play events');
+			if (process.env.NODE_ENV !== 'production')
+				console.log('getting play by play events');
 			// Retrieves all plays from selected game
 			const response = await this.api.getGamePlayByPlay({
 				pathParams: { gamePk: this.gameId },
@@ -668,23 +944,36 @@ export default {
 			this.getPlayerEvents();
 		},
 		async getPlayerEvents() {
-			if (process.env.NODE_ENV !== 'production') console.log('displaying player events');
+			if (process.env.NODE_ENV !== 'production')
+				console.log('displaying player events');
 			if (this.boxscore) {
 				var order = [];
-				if (this.boxscore.data.teams.away.team.id === this.userItems[0].attributes.userTeam.id) {
+				if (
+					this.boxscore.data.teams.away.team.id ===
+					this.userItems[0].attributes.userTeam.id
+				) {
 					order = this.boxscore.data.teams.away.players;
 					this.battingOrder = Object.values(order)
 						.filter((i) => i.battingOrder)
 						.sort((a, b) => {
-							return parseInt(a.battingOrder) - parseInt(b.battingOrder);
+							return (
+								parseInt(a.battingOrder) -
+								parseInt(b.battingOrder)
+							);
 						});
 				}
-				if (this.boxscore.data.teams.home.team.id === this.userItems[0].attributes.userTeam.id) {
+				if (
+					this.boxscore.data.teams.home.team.id ===
+					this.userItems[0].attributes.userTeam.id
+				) {
 					order = this.boxscore.data.teams.home.players;
 					this.battingOrder = Object.values(order)
 						.filter((i) => i.battingOrder)
 						.sort((a, b) => {
-							return parseInt(a.battingOrder) - parseInt(b.battingOrder);
+							return (
+								parseInt(a.battingOrder) -
+								parseInt(b.battingOrder)
+							);
 						});
 				}
 			}
@@ -701,22 +990,37 @@ export default {
 					var found = false;
 
 					for (const j in baserunners[i]) {
-						if (baserunners[i][j].details.eventType.includes('stolen') || baserunners[i][j].details.rbi === true) {
+						if (
+							baserunners[i][j].details.eventType.includes(
+								'stolen'
+							) ||
+							baserunners[i][j].details.rbi === true
+						) {
 							found = true;
 						}
 
 						if (found) runners.push(baserunners[i][j]);
 					}
 				}
-				const stats = this.gamePlayByPlay.filter((i) => i.matchup.batter.id === curr.person.id);
+				const stats = this.gamePlayByPlay.filter(
+					(i) => i.matchup.batter.id === curr.person.id
+				);
 
 				if (stats) {
 					// points
 					var count = 0;
 					// adds baserunning stats to the correct player
-					const steal = runners.filter((i) => i.details.runner.id === curr.person.id && i.details.eventType.includes('stolen'));
+					const steal = runners.filter(
+						(i) =>
+							i.details.runner.id === curr.person.id &&
+							i.details.eventType.includes('stolen')
+					);
 
-					const run = runners.filter((i) => i.details.runner.id === curr.person.id && i.details.rbi === true);
+					const run = runners.filter(
+						(i) =>
+							i.details.runner.id === curr.person.id &&
+							i.details.rbi === true
+					);
 
 					var br = [];
 					// adds points for a stolen base
@@ -736,12 +1040,15 @@ export default {
 					// calculates points based on results
 					for (const i in stats) {
 						if (stats[i].result.eventType === 'walk') count += 1;
-						if (stats[i].result.eventType === 'hit by pitch') count += 1;
+						if (stats[i].result.eventType === 'hit by pitch')
+							count += 1;
 						if (stats[i].result.eventType === 'single') count += 1;
 						if (stats[i].result.eventType === 'double') count += 2;
 						if (stats[i].result.eventType === 'triple') count += 3;
-						if (stats[i].result.eventType === 'home_run') count += 5;
-						if (stats[i].result.rbi) count += stats[i].result.rbi * 2;
+						if (stats[i].result.eventType === 'home_run')
+							count += 5;
+						if (stats[i].result.rbi)
+							count += stats[i].result.rbi * 2;
 					}
 				}
 				// constructs object to be displayed
@@ -762,7 +1069,8 @@ export default {
 			return new Promise((resolve) => setTimeout(resolve, ms));
 		},
 		async saveHistory() {
-			if (process.env.NODE_ENV !== 'production') console.log('saving game history 1');
+			if (process.env.NODE_ENV !== 'production')
+				console.log('saving game history 1');
 			const events = this.playerEvents;
 			// console.log(events)
 			// eslint-disable-next-line no-undef
@@ -785,19 +1093,34 @@ export default {
 			// })
 
 			if (this.gameStatus === 'Final') {
-				if (process.env.NODE_ENV !== 'production') console.log('saving user points 1');
+				if (process.env.NODE_ENV !== 'production')
+					console.log('saving user points 1');
 				// eslint-disable-next-line no-undef
 				var query = new Parse.Query('Standings');
 				const users = await query.find();
-				const usersFiltered = users.filter((i) => i.attributes.userTeam.id === this.userItems[0].attributes.userTeam.id && i.attributes.currentPlayers !== null);
+				const usersFiltered = users.filter(
+					(i) =>
+						i.attributes.userTeam.id ===
+							this.userItems[0].attributes.userTeam.id &&
+						i.attributes.currentPlayers !== null
+				);
 				for (const i in usersFiltered) {
 					if (usersFiltered[i].attributes.currentPlayers) {
 						// gets users selected players plays only
-						const players = Object.values(this.playerEvents).filter((playerEvents) =>
-							usersFiltered[i].attributes.currentPlayers.some((player) => playerEvents.name === player.person.fullName.split('.').join(''))
+						const players = Object.values(this.playerEvents).filter(
+							(playerEvents) =>
+								usersFiltered[i].attributes.currentPlayers.some(
+									(player) =>
+										playerEvents.name ===
+										player.person.fullName
+											.split('.')
+											.join('')
+								)
 						);
 						// calculates total points from players
-						const points = players.map((i) => i.points).reduce((a, b) => a + b, 0);
+						const points = players
+							.map((i) => i.points)
+							.reduce((a, b) => a + b, 0);
 						// creates a new object of the users selected players plays, points, and the date of the game for searching later
 						// const history = players.map((a) => {
 						// 	return {
@@ -817,9 +1140,15 @@ export default {
 							// } else {
 							// 	newHistory = history
 							// }
-							us.set('userPoints', points + us.attributes.userPoints);
+							us.set(
+								'userPoints',
+								points + us.attributes.userPoints
+							);
 							us.set('gamePoints', points);
-							us.set('previousPosition', us.attributes.currentPosition);
+							us.set(
+								'previousPosition',
+								us.attributes.currentPosition
+							);
 							us.set('gamePointsSaved', true);
 							// us.set('gameHistory', newHistory)
 							us.save();
@@ -855,8 +1184,15 @@ export default {
 			// console.log(data)
 			//  creates a new array sorted by points and filtered by team/game to grab the index for new user standings
 			const dataMap = data
-				.filter((i) => i.attributes.userTeam.id === this.userItems[0].attributes.userTeam.id && i.attributes.currentPlayers !== null)
-				.sort((a, b) => b.attributes.userPoints - a.attributes.userPoints);
+				.filter(
+					(i) =>
+						i.attributes.userTeam.id ===
+							this.userItems[0].attributes.userTeam.id &&
+						i.attributes.currentPlayers !== null
+				)
+				.sort(
+					(a, b) => b.attributes.userPoints - a.attributes.userPoints
+				);
 			const dataMap2 = dataMap.sort((a, b) => {
 				if (b.attributes.userPoints === a.attributes.userPoints) {
 					return b.attributes.gamePoints - a.attributes.gamePoints;
@@ -864,7 +1200,10 @@ export default {
 			});
 			const dataMap3 = dataMap2.sort((a, b) => {
 				if (b.attributes.gamePoints === a.attributes.gamePoints) {
-					return a.attributes.previousPosition - b.attributes.previousPosition;
+					return (
+						a.attributes.previousPosition -
+						b.attributes.previousPosition
+					);
 				}
 			});
 			// const dataMap4 = dataMap3.sort((a, b) => {
@@ -893,12 +1232,14 @@ export default {
 			this.points = val;
 		},
 		getEdit() {
-			if (process.env.NODE_ENV !== 'production') console.log('get edit 1');
+			if (process.env.NODE_ENV !== 'production')
+				console.log('get edit 1');
 			// eslint-disable-next-line no-undef
 			var queryN = new Parse.Query('PlayerData');
 			queryN.equalTo('objectId', 'UNPypEjpTA');
 			queryN.first().then((data) => {
-				if (data.attributes.allowEditPlayerSelection === true) this.setEditPlayerSelection(true);
+				if (data.attributes.allowEditPlayerSelection === true)
+					this.setEditPlayerSelection(true);
 				else this.setEditPlayerSelection(false);
 			});
 		},
@@ -909,7 +1250,8 @@ export default {
 			this.editPlayer = val;
 		},
 		async clearWeeklyPlayers() {
-			if (process.env.NODE_ENV !== 'production') console.log('clearing weekly player selections 1');
+			if (process.env.NODE_ENV !== 'production')
+				console.log('clearing weekly player selections 1');
 			// var today = moment()
 			const newDate = moment().format('YYYY-MM-DD');
 			// eslint-disable-next-line no-undef

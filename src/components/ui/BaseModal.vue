@@ -1,15 +1,11 @@
 <template>
 	<teleport to="body">
 		<div v-if="show" @click="tryClose" class="backdrop"></div>
-		<dialog open v-if="show" class="bg-dialog" :class="{ errorClass: error, nonError: !error}">
-			<header v-if="title" class="text-center" >
+		<dialog open v-if="show" class="bg-dialog" :class="{ errorClass: error, nonError: !error }">
+			<header v-if="title" class="text-center">
 				<slot name="header">
 					<h2 class="d-inline">{{ title }}</h2>
-					<button
-						class="d-inline float-end btn-close balt"
-						aria-label="Close"
-						@click="tryClose"
-					></button>
+					<button class="d-inline float-end btn-close balt" aria-label="Close" @click="tryClose"></button>
 				</slot>
 			</header>
 			<section>
@@ -27,29 +23,29 @@ export default {
 	props: {
 		show: {
 			type: Boolean,
-			required: true
+			required: true,
 		},
 		title: {
 			type: String,
-			required: false
+			required: false,
 		},
 		fixed: {
 			type: Boolean,
 			required: false,
-			default: false
+			default: false,
 		},
-		error: Boolean
+		error: Boolean,
 	},
 	emits: ['close'],
 	methods: {
-		tryClose () {
+		tryClose() {
 			if (this.fixed) {
-				return
+				return;
 			}
-			this.$emit('close')
-		}
-	}
-}
+			this.$emit('close');
+		},
+	},
+};
 </script>
 
 <style scoped>
@@ -74,8 +70,8 @@ dialog {
 	margin: 0;
 	overflow: hidden;
 	border-radius: 5px;
-	-webkit-animation: slide-in-top .5s cubic-bezier(0.25, 0.46, 0.45, 0.94) both;
-	animation: slide-in-top .5s cubic-bezier(0.25, 0.46, 0.45, 0.94) both;
+	-webkit-animation: slide-in-top 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94) both;
+	animation: slide-in-top 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94) both;
 }
 
 @-webkit-keyframes slide-in-top {

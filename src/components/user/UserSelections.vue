@@ -24,11 +24,7 @@
 				</select>
 				<h1 v-if="gameStatus === 'Live'" class="mt-3">You can only select players before or after a game</h1>
 				<h1 v-else class="mt-3">Select Players</h1>
-				<select
-					:disabled="player2 !== null || teamRoster === null || gameStatus === 'Live'"
-					v-model="player1"
-					class="form-select mb-4"
-				>
+				<select :disabled="player2 !== null || teamRoster === null || gameStatus === 'Live'" v-model="player1" class="form-select mb-4">
 					<option selected :value="null">Choose a position player</option>
 					<option v-for="player in positionRoster" :key="player" :value="player">
 						{{ player.person.fullName }}
@@ -66,9 +62,7 @@
 			<div class="">
 				<div class="mt-5 mb-5 border-bottom-yellow mb-3 h1">
 					My Players for <span class="color-sand">{{ currentWeekDate }}</span>
-					<button v-if="editPlayer" @click="showEditForm = true" class="btn sd-btn float-end">
-						Edit players
-					</button>
+					<button v-if="editPlayer" @click="showEditForm = true" class="btn sd-btn float-end">Edit players</button>
 				</div>
 			</div>
 			<!-- <div v-if="playerEvents" class="row">
@@ -162,16 +156,16 @@
 </template>
 
 <script>
-import moment from 'moment'
-import MLBStatsAPI from 'mlb-stats-api'
-import CONFIG from '@/config/teams.json'
-import EditPlayer from '@/components/user/EditPlayer.vue'
+import moment from 'moment';
+import MLBStatsAPI from 'mlb-stats-api';
+import CONFIG from '@/config/teams.json';
+import EditPlayer from '@/components/user/EditPlayer.vue';
 export default {
 	components: {
-		EditPlayer
+		EditPlayer,
 	},
 	props: ['playerEvents', 'editPlayer'],
-	data () {
+	data() {
 		return {
 			api: new MLBStatsAPI(),
 			positionRoster: null,
@@ -188,144 +182,137 @@ export default {
 			show: null,
 			weekDate: 'May 01 - May 08',
 			currentWeekDate: ' - ' + moment().add(7, 'd').format('MMM DD'),
-			showEditForm: false
-		}
+			showEditForm: false,
+		};
 	},
 	watch: {
-		userItems () {
-			this.team = this.userItems[0].attributes.userTeam
-			this.getRoster()
+		userItems() {
+			this.team = this.userItems[0].attributes.userTeam;
+			this.getRoster();
 		},
-		teamRoster (val) {
+		teamRoster(val) {
 			if (val !== null) {
 				setTimeout(() => {
-					this.positionFilterRoster()
-				}, 1000)
+					this.positionFilterRoster();
+				}, 1000);
 			}
 		},
-		player1 (val) {
-			this.positionFilterRoster(val, this.player2)
+		player1(val) {
+			this.positionFilterRoster(val, this.player2);
 		},
-		player2 (val) {
-			this.positionFilterRoster(this.player1, val)
-		}
+		player2(val) {
+			this.positionFilterRoster(this.player1, val);
+		},
 	},
-	created () {
+	created() {
 		// this.getRoster()
-		this.getStandings()
+		this.getStandings();
 	},
 	computed: {
-		getTeams () {
-			return CONFIG.teams
+		getTeams() {
+			return CONFIG.teams;
 		},
-		currentUser () {
-			return this.$store.state.currentUser
+		currentUser() {
+			return this.$store.state.currentUser;
 		},
-		userItems () {
+		userItems() {
 			if (this.currentUser && this.$store.state.standings) {
 				// console.log(
 				// 	this.$store.state.standings.filter((i) => i.attributes.userName === this.currentUser.username)
 				// )
-				return this.$store.state.standings.filter((i) => i.attributes.userName === this.currentUser.username)
+				return this.$store.state.standings.filter((i) => i.attributes.userName === this.currentUser.username);
 			} else {
-				return null
+				return null;
 			}
 		},
-		userSelectedPlayersTotalPoints () {
+		userSelectedPlayersTotalPoints() {
 			const players = Object.values(this.playerEvents)
 				.filter((i) => this.userItems[0].attributes.currentPlayers.some((j) => i.name === j.person.fullName))
-				.map((i) => i.points)
-			const points = players.reduce((a, b) => a + b, 0)
-			return points
+				.map((i) => i.points);
+			const points = players.reduce((a, b) => a + b, 0);
+			return points;
 		},
-		previousPlayers () {
+		previousPlayers() {
 			if (this.userItems[0].attributes.previousPlayers && this.userItems[0].attributes.currentPlayers) {
-				return this.userItems[0].attributes.previousPlayers.filter(
-					(i) => !this.userItems[0].attributes.currentPlayers.some((j) => i.person.id === j.person.id)
-				)
+				return this.userItems[0].attributes.previousPlayers.filter((i) => !this.userItems[0].attributes.currentPlayers.some((j) => i.person.id === j.person.id));
 			} else {
-				return null
+				return null;
 			}
 		},
-		gameStatus () {
-			return this.$store.state.gameStatus
-		}
+		gameStatus() {
+			return this.$store.state.gameStatus;
+		},
 	},
 	methods: {
-		closeForm () {
-			this.getStandings()
+		closeForm() {
+			this.getStandings();
 			setTimeout(() => {
-				this.$router.go()
-			}, 500)
+				this.$router.go();
+			}, 500);
 		},
-		getStandings () {
-			this.$store.dispatch('getStandings')
+		getStandings() {
+			this.$store.dispatch('getStandings');
 			// eslint-disable-next-line no-undef
-			var queryF = new Parse.Query('PlayerData')
-			queryF.equalTo('objectId', 'UNPypEjpTA')
+			var queryF = new Parse.Query('PlayerData');
+			queryF.equalTo('objectId', 'UNPypEjpTA');
 			queryF.first().then((data) => {
-				this.currentWeekDate =
-					moment(data.attributes.weekStartDate).format('MMM DD') +
-					' - ' +
-					moment(data.attributes.weekStartDate).add(7, 'd').format('MMM DD')
-			})
-			this.getRoster()
+				this.currentWeekDate = moment(data.attributes.weekStartDate).format('MMM DD') + ' - ' + moment(data.attributes.weekStartDate).add(7, 'd').format('MMM DD');
+			});
+			this.getRoster();
 		},
-		async getRoster () {
+		async getRoster() {
 			// Retrieves the team roster
 			if (this.userItems && this.team !== null) {
-				if (process.env.NODE_ENV !== 'production') console.log('retrieving roster')
+				if (process.env.NODE_ENV !== 'production') console.log('retrieving roster');
 				const response = await this.api.getTeamRoster({
-					pathParams: { teamId: this.userItems[0].attributes.userTeam.id }
-				})
-				this.teamRoster = response.data.roster
+					pathParams: { teamId: this.userItems[0].attributes.userTeam.id },
+				});
+				this.teamRoster = response.data.roster;
 			}
 		},
-		positionFilterRoster (player1, player2) {
-			if (process.env.NODE_ENV !== 'production') console.log('filtering roster')
-			var roster = ''
+		positionFilterRoster(player1, player2) {
+			if (process.env.NODE_ENV !== 'production') console.log('filtering roster');
+			var roster = '';
 			if (!this.userItems[0].attributes.previousPlayers) {
 				// console.log('run')
-				roster = this.teamRoster
+				roster = this.teamRoster;
 			} else {
-				roster = this.teamRoster.filter(
-					(i) => !this.userItems[0].attributes.previousPlayers.some((j) => i.person.id === j.person.id)
-				)
+				roster = this.teamRoster.filter((i) => !this.userItems[0].attributes.previousPlayers.some((j) => i.person.id === j.person.id));
 			}
-			this.pitcherRoster = roster.filter((i) => i.position.code === '1')
-			this.positionRoster = roster.filter((i) => i.position.code !== '1')
-			if (player1) this.positionRoster2 = roster.filter((i) => i.position.code !== '1' && i !== player1)
+			this.pitcherRoster = roster.filter((i) => i.position.code === '1');
+			this.positionRoster = roster.filter((i) => i.position.code !== '1');
+			if (player1) this.positionRoster2 = roster.filter((i) => i.position.code !== '1' && i !== player1);
 			if (player2) {
-				this.positionRoster3 = roster.filter((i) => i.position.code !== '1' && i !== player1 && i !== player2)
+				this.positionRoster3 = roster.filter((i) => i.position.code !== '1' && i !== player1 && i !== player2);
 			}
 		},
-		savePlayers () {
-			this.isLoading = true
-			const players = []
-			players.push(this.player1)
-			players.push(this.player2)
-			players.push(this.player3)
+		savePlayers() {
+			this.isLoading = true;
+			const players = [];
+			players.push(this.player1);
+			players.push(this.player2);
+			players.push(this.player3);
 			// players.push(this.pitcher)
-			var previousPlayers = []
+			var previousPlayers = [];
 			if (this.userItems[0].attributes.previousPlayers) {
-				previousPlayers = [...this.userItems[0].attributes.previousPlayers]
+				previousPlayers = [...this.userItems[0].attributes.previousPlayers];
 			}
-			previousPlayers.push(this.player1)
-			previousPlayers.push(this.player2)
-			previousPlayers.push(this.player3)
+			previousPlayers.push(this.player1);
+			previousPlayers.push(this.player2);
+			previousPlayers.push(this.player3);
 			// previousPlayers.push(this.pitcher)
 			const payload = {
 				userId: this.userItems[0].attributes.userId,
 				selectedPlayers: players,
 				previousPlayers: previousPlayers,
-				userTeam: this.team
-			}
-			this.$store.dispatch('savePlayers', payload)
+				userTeam: this.team,
+			};
+			this.$store.dispatch('savePlayers', payload);
 			setTimeout(() => {
-				this.isLoading = false
-				this.getStandings()
-			}, 2500)
-		}
-	}
-}
+				this.isLoading = false;
+				this.getStandings();
+			}, 2500);
+		},
+	},
+};
 </script>

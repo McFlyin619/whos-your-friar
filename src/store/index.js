@@ -77,8 +77,7 @@ export default createStore({
 		}
 	},
 	actions: {
-		test (context) {
-		},
+
 		async createUser (context, payload) {
 			context.commit('setError', null)
 			context.commit('setApiState', ENUM.LOADING)
@@ -303,8 +302,8 @@ export default createStore({
 				}
 			})
 		},
-		async gameFinal (context) {
-		},
+		// async gameFinal (context) {
+		// },
 		async getRoster (context, teamId) {
 			if (process.env.NODE_ENV !== 'production') console.log('retrieving roster')
 			// Retrieves the team roster

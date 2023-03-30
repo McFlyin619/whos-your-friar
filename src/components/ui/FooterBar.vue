@@ -12,14 +12,14 @@
 </template>
 
 <script>
-import moment from 'moment'
+import moment from 'moment';
 export default {
-	data () {
+	data() {
 		return {
-			year: moment().format('YYYY')
-		}
-	}
-}
+			year: moment().format('YYYY'),
+		};
+	},
+};
 </script>
 
 <style scoped>
@@ -34,10 +34,10 @@ footer {
 
 a {
 	text-decoration: none;
-	color: #6C757D;
+	color: #6c757d;
 }
 
 a:hover {
-	color: #FFC425;
+	color: #ffc425;
 }
 </style>
