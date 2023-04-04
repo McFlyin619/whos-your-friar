@@ -1,8 +1,17 @@
 <template>
-	<div class="text-center"><button :disbaled="clicked" class="btn sd-btn" @click="removeCurrentSelections">Yes</button></div>
+	<div class="text-center">
+		<button
+			:disbaled="clicked"
+			class="btn sd-btn"
+			@click="removeCurrentSelections"
+		>
+			Yes
+		</button>
+	</div>
 </template>
 
 <script>
+import Parse from 'parse';
 export default {
 	emits: ['close'],
 	props: ['userItems'],

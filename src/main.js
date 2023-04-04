@@ -8,7 +8,7 @@ import './assets/main.css'
 import 'bootstrap/dist/css/bootstrap.min.css'
 import BaseLoader from '@/components/ui/BaseLoader.vue'
 import BaseModal from '@/components/ui/BaseModal.vue'
-
+import Parse from 'parse'
 const app = createApp(App)
 
 app.use(store)

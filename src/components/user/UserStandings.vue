@@ -415,6 +415,7 @@
 <script>
 import NUM from '@/config/playerNumbers.json';
 import CONFIG from '@/config/teams.json';
+import Parse from 'parse';
 export default {
 	props: ['editPlayer', 'currentUser', 'points'],
 	emits: ['getInfo', 'currentStandings'],

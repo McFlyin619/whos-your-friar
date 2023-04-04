@@ -2,6 +2,7 @@
 import { createStore } from 'vuex'
 import ENUM from '@/config/loading.js'
 import MLBStatsAPI from 'mlb-stats-api'
+import Parse from 'parse'
 const api = new MLBStatsAPI()
 
 export default createStore({
