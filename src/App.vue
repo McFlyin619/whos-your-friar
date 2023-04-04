@@ -383,7 +383,7 @@ export default {
 		// 	this.getEdit()
 		// }
 		// this.getInfo()
-		this.$store.dispatch('test');
+		// this.$store.dispatch('test');
 		this.loadGameData();
 		// 	setTimeout(() => {
 		// 		this.getInfo()
