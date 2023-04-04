@@ -307,7 +307,7 @@ import FooterBar from '@/components/ui/FooterBar.vue';
 import MLBStatsAPI from 'mlb-stats-api';
 import ENUM from '@/config/loading.js';
 import axios from 'axios';
-
+import Parse from 'parse';
 // Initialize Parse
 // eslint-disable-next-line no-undef
 Parse.initialize(
