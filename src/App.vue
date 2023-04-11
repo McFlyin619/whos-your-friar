@@ -4,7 +4,12 @@
 			<base-loader v-if="isLoading"></base-loader>
 			<nav-bar v-if="userItems" :userItems="userItems"></nav-bar>
 			<div v-if="isAuth" class="container">
-				<!-- <button v-if="userItems[0].attributes.userName === 'McFlyin'" @click="clearWeeklyPlayers"> clear weekly players</button> -->
+				<button
+					v-if="userItems[0].attributes.userName === 'McFlyin'"
+					@click="clearWeeklyPlayers"
+				>
+					clear weekly players
+				</button>
 				<!-- <button v-if="userItems[0].attributes.userName === 'McFlyin'" @click="saveUserPoints">save history</button> -->
 				<div class="row row-cols-1 row-cols-md-5 g-2 mb-4 mt-2">
 					<div class="col text-center">
@@ -1102,10 +1107,14 @@ export default {
 					(i) =>
 						i.attributes.userTeam.id ===
 							this.userItems[0].attributes.userTeam.id &&
-						i.attributes.currentPlayers !== null
+						i.attributes.gamePointsSaved === false
 				);
 				for (const i in usersFiltered) {
-					if (usersFiltered[i].attributes.currentPlayers) {
+					console.log(usersFiltered[i]);
+					if (
+						usersFiltered[i].attributes.currentPlayers !== null &&
+						usersFiltered[i].attributes.currentPlayers
+					) {
 						// gets users selected players plays only
 						const players = Object.values(this.playerEvents).filter(
 							(playerEvents) =>
@@ -1121,30 +1130,30 @@ export default {
 						const points = players
 							.map((i) => i.points)
 							.reduce((a, b) => a + b, 0);
-						// creates a new object of the users selected players plays, points, and the date of the game for searching later
-						// const history = players.map((a) => {
-						// 	return {
-						// 		...a,
-						// 		date: this.gameDate
-						// 	}
-						// })
-						// saves user points, current position, and the history
+
 						// eslint-disable-next-line no-undef
 						var queryU = new Parse.Query('Standings');
 						queryU.equalTo('objectId', usersFiltered[i].id);
 						queryU.first().then((us) => {
-							// console.log(us.attributes)
-							// if (us.attributes.gameHistory !== undefined) {
-							// 	var newHistory = us.attributes.gameHistory
-							// 	newHistory.push(history)
-							// } else {
-							// 	newHistory = history
-							// }
 							us.set(
 								'userPoints',
 								points + us.attributes.userPoints
 							);
 							us.set('gamePoints', points);
+							us.set(
+								'previousPosition',
+								us.attributes.currentPosition
+							);
+							us.set('gamePointsSaved', true);
+							// us.set('gameHistory', newHistory)
+							us.save();
+						});
+					} else {
+						var queryUi = new Parse.Query('Standings');
+						queryUi.equalTo('objectId', usersFiltered[i].id);
+						queryUi.first().then((us) => {
+							us.set('userPoints', 0 + us.attributes.userPoints);
+							us.set('gamePoints', 0);
 							us.set(
 								'previousPosition',
 								us.attributes.currentPosition
