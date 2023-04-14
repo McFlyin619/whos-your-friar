@@ -1196,8 +1196,7 @@ export default {
 				.filter(
 					(i) =>
 						i.attributes.userTeam.id ===
-							this.userItems[0].attributes.userTeam.id &&
-						i.attributes.currentPlayers !== null
+						this.userItems[0].attributes.userTeam.id
 				)
 				.sort(
 					(a, b) => b.attributes.userPoints - a.attributes.userPoints
