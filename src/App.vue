@@ -5,7 +5,10 @@
 			<nav-bar v-if="userItems" :userItems="userItems"></nav-bar>
 			<div v-if="isAuth" class="container">
 				<button
-					v-if="userItems[0].attributes.userName === 'McFlyin'"
+					v-if="
+						userItems[0].attributes.userName === 'McFlyin' &&
+						moment().isoWeekday(7)
+					"
 					@click="clearWeeklyPlayers"
 				>
 					clear weekly players
