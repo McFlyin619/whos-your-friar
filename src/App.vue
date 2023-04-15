@@ -6,8 +6,8 @@
 			<div v-if="isAuth" class="container">
 				<button
 					v-if="
-						userItems[0].attributes.userName === 'McFlyin' &&
-						moment().isoWeekday(7)
+						userItems.length > 0 &&
+						userItems[0].attributes.userName === 'McFlyin'
 					"
 					@click="clearWeeklyPlayers"
 				>
