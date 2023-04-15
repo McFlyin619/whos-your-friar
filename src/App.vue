@@ -6,7 +6,7 @@
 			<div v-if="isAuth" class="container">
 				<button
 					v-if="
-						userItems.length > 0 &&
+						userItems &&
 						userItems[0].attributes.userName === 'McFlyin'
 					"
 					@click="clearWeeklyPlayers"
