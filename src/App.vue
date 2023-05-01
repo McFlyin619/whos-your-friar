@@ -274,8 +274,9 @@
 					</div>
 				</div>
 				<div class="text-center">
-					<h4 class="font-grad">
-						<span class="text-white">Champion</span> KnickKnack
+					<h4 v-if="standings" class="font-grad">
+						<span class="text-white">Champion</span>
+						{{ champion }}
 					</h4>
 				</div>
 			</div>
@@ -417,9 +418,10 @@ export default {
 			return this.$store.state.standings;
 		},
 		champion() {
-			return this.$store.state.standings.filter(
+			const champ = this.$store.state.standings.filter(
 				(i) => i.attributes.winner === 'yes'
 			);
+			return champ[0].attributes.userName;
 		},
 		userItems() {
 			if (this.currentUser && this.$store.state.standings) {
