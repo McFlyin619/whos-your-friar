@@ -72,7 +72,7 @@
 						{{ team.name }}
 					</option>
 				</select>
-				<h1 v-if="gameStatus === 'Live'" class="mt-3">
+				<h1 v-if="gameStatus !== 'Live'" class="mt-3">
 					You can only select players before or after a game
 				</h1>
 				<h1 v-else class="mt-3">Select Players</h1>
