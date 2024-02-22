@@ -77,11 +77,7 @@
 				</h1>
 				<h1 v-else class="mt-3">Select Players</h1>
 				<select
-					:disabled="
-						player2 !== null ||
-						teamRoster === null ||
-						gameStatus === 'Live'
-					"
+					:disabled="player2 !== null || teamRoster === null"
 					v-model="player1"
 					class="form-select mb-4"
 				>
@@ -396,8 +392,6 @@ export default {
 		async getRoster() {
 			// Retrieves the team roster
 			if (this.userItems && this.team !== null) {
-				if (process.env.NODE_ENV !== 'production')
-					console.log('retrieving roster');
 				const response = await this.api.getTeamRoster({
 					pathParams: {
 						teamId: this.userItems[0].attributes.userTeam.id,
@@ -407,8 +401,6 @@ export default {
 			}
 		},
 		positionFilterRoster(player1, player2) {
-			if (process.env.NODE_ENV !== 'production')
-				console.log('filtering roster');
 			var roster = '';
 			if (!this.userItems[0].attributes.previousPlayers) {
 				// console.log('run')
