@@ -14,7 +14,7 @@
 					clear weekly players
 				</button>
 				<!-- <button v-if="userItems[0].attributes.userName === 'McFlyin'" @click="saveUserPoints">save history</button> -->
-				<div class="row row-cols-1 row-cols-md-4 gap-2 mb-4 mt-2">
+				<div class="row gap-3 mb-4 mt-2">
 					<!-- <div class="col text-center">
 						<a
 							target="_blank"
