@@ -15,7 +15,7 @@
 				</button>
 				<!-- <button v-if="userItems[0].attributes.userName === 'McFlyin'" @click="saveUserPoints">save history</button> -->
 				<div class="row row-cols-1 row-cols-md-5 g-2 mb-4 mt-2">
-					<div class="col text-center">
+					<!-- <div class="col text-center">
 						<a
 							target="_blank"
 							href="https://shareasale.com/r.cfm?b=1659554&u=3344587&m=103170&urllink=&afftrack="
@@ -25,7 +25,7 @@
 								border="0"
 								alt="Aced Out Clothing"
 						/></a>
-					</div>
+					</div> -->
 					<div class="col border-yellow user-standing">
 						<div
 							v-if="isLoading"
