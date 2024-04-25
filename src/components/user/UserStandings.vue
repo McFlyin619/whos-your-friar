@@ -37,11 +37,11 @@
 							>
 								<i
 									v-if="show === 'all'"
-									class="fas fa-caret-down me-2 text-white"
+									class="bx bx-caret-down me-2 text-white"
 								></i>
 								<i
 									v-else
-									class="fas fa-caret-right color-sand me-2"
+									class="bx bx-caret-right color-sand me-2"
 								></i
 								>Pos
 							</th>
@@ -88,11 +88,11 @@
 							<td class="color-yellow text-start">
 								<i
 									v-if="show === user.user || show === 'all'"
-									class="fas fa-caret-down me-2 text-white"
+									class="bx bx-caret-down me-2 text-white"
 								></i>
 								<i
 									v-else
-									class="fas fa-caret-right color-sand me-2"
+									class="bx bx-caret-right color-sand me-2"
 								></i>
 								{{
 									page === 1
@@ -112,7 +112,7 @@
 									"
 								>
 									<i
-										class="fa-solid fa-caret-down align-self-center"
+										class="bx bx-caret-down align-self-center"
 									></i>
 									{{
 										(page === 1
@@ -133,7 +133,7 @@
 									"
 								>
 									<i
-										class="fa-solid fa-caret-up align-self-center"
+										class="bx bx-caret-up align-self-center"
 									></i>
 									{{
 										user.user.attributes.currentPosition -
@@ -152,7 +152,7 @@
 											  (index + 1)) ===
 										user.user.attributes.currentPosition
 									"
-									><i class="fa-solid fa-minus"></i
+									><i class="bx bx-minus"></i
 								></span>
 							</td>
 							<td></td>
@@ -164,7 +164,7 @@
 											: (page - 1) * perPage +
 											  (index + 1)) < 4
 									"
-									class="fa-solid fa-star"
+									class="bx bx-star"
 								></i>
 								{{ user.user.attributes.userName }}
 								<span
@@ -186,7 +186,7 @@
 											: (page - 1) * perPage +
 											  (index + 1)) < 4
 									"
-									class="fa-solid fa-star ms-2"
+									class="bx bx-star ms-2"
 								></i>
 								<div
 									v-if="
@@ -236,11 +236,11 @@
 							>
 								<i
 									v-if="show === 'all'"
-									class="fas fa-caret-down me-2 text-white"
+									class="bx bx-caret-down me-2 text-white"
 								></i>
 								<i
 									v-else
-									class="fas fa-caret-right color-sand me-2"
+									class="bx bx-caret-right color-sand me-2"
 								></i>
 								Pos
 							</th>
@@ -277,11 +277,11 @@
 							<td class="color-yellow text-start">
 								<i
 									v-if="show === user || show === 'all'"
-									class="fas fa-caret-down me-2 text-white"
+									class="bx bx-caret-down me-2 text-white"
 								></i>
 								<i
 									v-else
-									class="fas fa-caret-right color-sand me-2"
+									class="bx bx-caret-right color-sand me-2"
 								></i>
 								{{ user.attributes.currentPosition }}
 							</td>
@@ -294,7 +294,7 @@
 									"
 								>
 									<i
-										class="fa-solid fa-caret-down align-self-center"
+										class="bx bx-caret-down align-self-center"
 									></i>
 									{{
 										user.attributes.currentPosition -
@@ -309,7 +309,7 @@
 									"
 								>
 									<i
-										class="fa-solid fa-caret-up align-self-center"
+										class="bx bx-caret-up align-self-center"
 									></i>
 									{{
 										user.attributes.previousPosition -
@@ -322,14 +322,14 @@
 										user.attributes.currentPosition ===
 										user.attributes.previousPosition
 									"
-									><i class="fa-solid fa-minus"></i
+									><i class="bx bx-minus"></i
 								></span>
 							</td>
 							<td></td>
 							<td class="text-start">
 								<i
 									v-if="user.attributes.currentPosition < 4"
-									class="fa-solid fa-star me-2"
+									class="bx bx-star me-2"
 								></i>
 								<!-- <i v-if="user.attributes.currentPosition === standings.length" class="fa-solid fa-dumpster text-secondary"></i> -->
 								{{ user.attributes.userName }}
@@ -347,7 +347,7 @@
 								>
 								<i
 									v-if="user.attributes.currentPosition < 4"
-									class="fa-solid fa-star ms-2"
+									class="bx bx-star ms-2"
 								></i>
 								<div
 									v-if="
@@ -391,7 +391,7 @@
 						role="button"
 						v-show="page !== 1"
 						@click="pageDown"
-						class="fa-solid fa-square-caret-left fa-2x"
+						class="bx bxs-caret-left-square-left fa-2x"
 					></i>
 				</div>
 				<div>
@@ -399,7 +399,7 @@
 						role="button"
 						v-show="page !== Math.ceil(standings.length / perPage)"
 						@click="pageUp"
-						class="fa-solid fa-square-caret-right fa-2x"
+						class="bx bxs-caret-right-square-right fa-2x"
 					></i>
 				</div>
 			</div>

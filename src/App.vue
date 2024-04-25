@@ -143,11 +143,11 @@
 								>
 									<i
 										v-if="showPlays === p.name"
-										class="fas fa-caret-down me-2 text-white"
+										class="bx bx-caret-down me-2 text-white"
 									></i>
 									<i
 										v-else
-										class="fas fa-caret-right me-2"
+										class="bx bx-caret-right me-2"
 									></i>
 									{{ p.name }}
 								</div>
