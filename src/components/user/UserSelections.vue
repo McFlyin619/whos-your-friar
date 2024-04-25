@@ -137,7 +137,7 @@
 					class="btn sd-btn me-4"
 				>
 					<div v-show="isLoading">
-						<i class="fa-solid fa-baseball fa-spin"></i>
+						<i class="bx bx-baseball bx-spin"></i>
 						Loading...
 					</div>
 					<div v-show="!isLoading">Save</div>

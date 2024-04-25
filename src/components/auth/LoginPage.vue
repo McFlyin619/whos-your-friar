@@ -29,12 +29,12 @@
 				class="alert alert-danger d-flex align-items-center mt-3"
 				role="alert"
 			>
-				<i class="fas fa-exclamation-triangle me-4"></i>{{ errMessage }}
+				<i class="bx bx-exclamation-triangle me-4"></i>{{ errMessage }}
 			</div>
 			<div class="mt-5 mb-4">
 				<button :disabled="isLoading" class="btn sd-btn-dark me-4">
 					<div v-show="isLoading">
-						<i class="fa-solid fa-baseball fa-spin"></i>
+						<i class="bx bx-baseball bx-spin"></i>
 						Loading...
 					</div>
 					<div v-show="!isLoading">Login</div>
@@ -150,12 +150,12 @@
 				class="alert alert-danger d-flex align-items-center mt-3"
 				role="alert"
 			>
-				<i class="fas fa-exclamation-triangle me-4"></i>{{ errMessage }}
+				<i class="bx bx-error bx-burst me-4"></i>{{ errMessage }}
 			</div>
 			<div class="mt-5 mb-4">
 				<button :disabled="isLoading" class="btn sd-btn-dark me-4">
 					<div v-show="isLoading">
-						<i class="fa-solid fa-baseball fa-spin"></i>
+						<i class="bx bx-baseball bx-spin"></i>
 						Loading...
 					</div>
 					<div v-show="!isLoading">Create account</div>
